@@ -134,10 +134,27 @@ class Hashtags extends React.Component {
 
     submitHashtags = () => {
         this.setLoading(true);
-        this.props.firestore.add(
-            { collection: 'hashtags' },
-            { value: this.state.selected },
-        );
+
+        const db = this.props.firestore;
+        const uid = this.props.uid;
+
+        db.collection('hashtags')
+            .where('uid', '==', uid)
+            .get()
+            .then((snapshot) => {
+                const batch = db.batch();
+                snapshot.forEach(({ ref }) => batch.delete(ref));
+                return batch.commit();
+            })
+            .then(() =>
+                this.state.selected.forEach(({ title }) => {
+                    return db.add(
+                        { collection: 'hashtags' },
+                        { value: title, uid },
+                    );
+                })
+            )
+            .finally(() => this.setLoading(false))
     };
 
     render() {
@@ -179,11 +196,20 @@ class Hashtags extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    uid: state.firebase.auth.uid,
     hashtags: state.firestore.data.hashtags,
 });
 
 export default compose(
-    firestoreConnect(['hashtags']),
-    connect(mapStateToProps),
     withFirestore,
+    connect(mapStateToProps),
+    firestoreConnect((props) => [
+        {
+            collection: 'hashtags',
+            where: [
+                ['uid', '==', props.uid || 0]
+            ],
+            storeAs: 'hashtags'
+        }
+    ]),
 )(Hashtags);
