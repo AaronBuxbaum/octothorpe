@@ -7,8 +7,6 @@ import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import Button from 'grommet/components/Button';
 import Footer from 'grommet/components/Footer';
-import Layer from 'grommet/components/Layer';
-import Spinning from 'grommet/components/icons/Spinning';
 import SelectedHashtags from './SelectedHashtags';
 import { firestoreConnect, withFirestore } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -122,19 +120,11 @@ class Hashtags extends React.Component {
         });
     };
 
-    setLoading = (status) => {
-        this.setState({
-            isWorking: status,
-        });
-    };
-
     routeToMatches = () => {
         window.location.assign('/matches');
     };
 
     submitHashtags = () => {
-        this.setLoading(true);
-
         const db = this.props.firestore;
         const uid = this.props.uid;
 
@@ -153,51 +143,45 @@ class Hashtags extends React.Component {
                         { value: title, uid },
                     );
                 })
-            )
-            .finally(() => this.setLoading(false))
+            );
     };
 
     render() {
         return (
-            <>
-                <Form onSubmit={this.handleEnterKey}>
-                    <FormFields>
-                        <FormField>
-                            <TextInput
-                                placeHolder="Type the things you like..."
-                                onDOMChange={this.updateSuggestions}
-                                onSelect={this.handleSelectSuggestion}
-                                suggestions={this.state.suggestions}
-                                value={this.state.value}
-                            />
-                        </FormField>
-
-                        <SelectedHashtags
-                            items={this.state.selected}
-                            removeItem={this.removeSelectedItem}
+            <Form onSubmit={this.handleEnterKey}>
+                <FormFields>
+                    <FormField>
+                        <TextInput
+                            placeHolder="Type the things you like..."
+                            onDOMChange={this.updateSuggestions}
+                            onSelect={this.handleSelectSuggestion}
+                            suggestions={this.state.suggestions}
+                            value={this.state.value}
                         />
-                    </FormFields>
+                    </FormField>
 
-                    <Footer pad={{ "vertical": "medium" }}>
-                        <Button
-                            label='Submit'
-                            onClick={this.submitHashtags}
-                        />
-                    </Footer>
-                </Form>
+                    <SelectedHashtags
+                        items={this.state.selected || []}
+                        removeItem={this.removeSelectedItem}
+                    />
+                </FormFields>
 
-                <Layer hidden={!this.state.isWorking}>
-                    <Spinning size="xlarge" />
-                    Working...
-                </Layer>
-            </>
+                <Footer pad={{ "vertical": "medium" }}>
+                    <Button
+                        label='Submit'
+                        onClick={this.submitHashtags}
+                    />
+                </Footer>
+            </Form>
         );
     }
 }
 
+const hashtags = 'hashtags';
+
 const mapStateToProps = (state) => ({
     uid: state.firebase.auth.uid,
-    hashtags: state.firestore.data.hashtags,
+    [hashtags]: state.firestore.ordered.hashtags,
 });
 
 export default compose(
@@ -209,7 +193,7 @@ export default compose(
             where: [
                 ['uid', '==', props.uid || 0]
             ],
-            storeAs: 'hashtags'
+            storeAs: hashtags,
         }
     ]),
 )(Hashtags);
