@@ -1,1 +1,4 @@
-web: npm run-script build
+web:
+    yarn build
+    yarn global add serve
+    serve -s build
