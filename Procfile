@@ -1,4 +1,2 @@
 web:
-    yarn build
-    yarn global add serve
-    serve -s build
+    yarn build && yarn global add serve && serve -s build
