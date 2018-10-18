@@ -21,12 +21,15 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "flask run --port=5000",
+    "database": "mongod --dbpath database"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": [
     "last 1 version"
-  ]
+  ],
+  "proxy": "http://localhost:5000"
 }
