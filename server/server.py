@@ -4,5 +4,5 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    database.collection_names()
+    print(database.collection_names())
     return jsonify({"hello": "there"})

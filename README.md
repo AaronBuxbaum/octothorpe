@@ -1,6 +1,6 @@
 ## Install
   * Database: `brew install mongodb`
-  * Server: `brew install python && pip install server/requirements.txt`
+  * Server: `brew install python && pip install -r server/requirements.txt`
   * Client: `yarn`
 
 ## Start
