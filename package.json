@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-server": "^2.1.0",
     "firebase": "^5.5.4",
+    "graphql": "^14.0.2",
     "grommet": "^1.11.0",
+    "mongoose": "^5.3.4",
     "node-sass": "^4.9.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -23,13 +26,17 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "flask run --port=5000",
-    "database": "mongod --dbpath database"
+    "database": "mongod --dbpath database",
+    "lint": "eslint src"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "airbnb"
   },
   "browserslist": [
     "last 1 version"
   ],
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0"
+  }
 }

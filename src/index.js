@@ -8,12 +8,12 @@ import * as serviceWorker from './serviceWorker';
 import Router from './router';
 
 ReactDOM.render(
-    <GrommetApp>
-        <StateProvider>
-            <Router />
-        </StateProvider>
-    </GrommetApp>,
-    document.getElementById('root')
+  <GrommetApp>
+    <StateProvider>
+      <Router />
+    </StateProvider>
+  </GrommetApp>,
+  document.getElementById('root'),
 );
 
 serviceWorker.unregister();

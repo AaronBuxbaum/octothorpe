@@ -7,37 +7,37 @@ import 'firebase/firestore';
 import 'firebase/functions';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAIVorViM7RD2lMYxIgYHZ1MqK3zMIG29s",
-    authDomain: "octothorpe-me.firebaseapp.com",
-    databaseURL: "https://octothorpe-me.firebaseio.com",
-    projectId: "octothorpe-me",
-    storageBucket: "octothorpe-me.appspot.com",
-    messagingSenderId: "306166090904",
+  apiKey: 'AIzaSyAIVorViM7RD2lMYxIgYHZ1MqK3zMIG29s',
+  authDomain: 'octothorpe-me.firebaseapp.com',
+  databaseURL: 'https://octothorpe-me.firebaseio.com',
+  projectId: 'octothorpe-me',
+  storageBucket: 'octothorpe-me.appspot.com',
+  messagingSenderId: '306166090904',
 };
 
 const reactReduxFirebaseConfig = {
-    userProfile: 'users',
-    useFirestoreForProfile: true,
+  userProfile: 'users',
+  useFirestoreForProfile: true,
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const firestore = firebase.firestore();
 const firestoreSettings = {
-    timestampsInSnapshots: true,
+  timestampsInSnapshots: true,
 };
 firestore.settings(firestoreSettings);
 firebase.functions();
 
 const createStoreWithFirebase = compose(
-    reactReduxFirebase(firebase, reactReduxFirebaseConfig),
-    reduxFirestore(firebase)
+  reactReduxFirebase(firebase, reactReduxFirebaseConfig),
+  reduxFirestore(firebase),
 )(createStore);
 
 
 const rootReducer = combineReducers({
-    firebase: firebaseReducer,
-    firestore: firestoreReducer,
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
 });
 
 const initialState = {};

@@ -7,32 +7,34 @@ import Matches from '../pages/Matches/Matches';
 import Hashtags from '../pages/Hashtags/Hashtags';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
-import { HOME, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER } from './pages';
+import {
+  HOME, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER,
+} from './pages';
 import { pageRoutes } from './routeTo';
 
 const componentToRoute = {
-    [HOME]: Home,
-    [PROFILE]: Profile,
-    [MATCHES]: Matches,
-    [HASHTAGS]: Hashtags,
-    [LOGIN]: Login,
-    [REGISTER]: Register,
+  [HOME]: Home,
+  [PROFILE]: Profile,
+  [MATCHES]: Matches,
+  [HASHTAGS]: Hashtags,
+  [LOGIN]: Login,
+  [REGISTER]: Register,
 };
 
-const Router = (props) => (
-    <BrowserRouter {...props}>
-        <div>
-            <Route component={Header} />
-            <Route exact path="/" component={Home} />
-            {Object.keys(componentToRoute).map((route) =>
-                <Route
-                    path={pageRoutes[route]}
-                    component={componentToRoute[route]}
-                    key={route}
-                />
-            )}
-        </div>
-    </BrowserRouter>
+const Router = props => (
+  <BrowserRouter {...props}>
+    <div>
+      <Route component={Header} />
+      <Route exact path="/" component={Home} />
+      {Object.keys(componentToRoute).map(route => (
+        <Route
+          path={pageRoutes[route]}
+          component={componentToRoute[route]}
+          key={route}
+        />
+      ))}
+    </div>
+  </BrowserRouter>
 );
 
 export default Router;
