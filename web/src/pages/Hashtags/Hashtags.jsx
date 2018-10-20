@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'recompose';
 import { take } from 'lodash';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
@@ -8,9 +7,6 @@ import TextInput from 'grommet/components/TextInput';
 import Button from 'grommet/components/Button';
 import Footer from 'grommet/components/Footer';
 import SelectedHashtags from './SelectedHashtags';
-import { firestoreConnect, withFirestore } from 'react-redux-firebase';
-import { connect } from 'react-redux';
-import { renderWhileLoading } from '../../hoc/loading';
 
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
@@ -182,21 +178,4 @@ class Hashtags extends React.Component {
 
 const hashtags = 'hashtags';
 
-const mapStateToProps = (state) => ({
-    uid: state.firebase.auth.uid,
-    [hashtags]: state.firestore.ordered[hashtags],
-});
-
-export default compose(
-    withFirestore,
-    connect(mapStateToProps),
-    firestoreConnect((props) => [
-        {
-            collection: hashtags,
-            where: [
-                ['uid', '==', props.uid || 0]
-            ],
-        }
-    ]),
-    renderWhileLoading([hashtags]),
-)(Hashtags);
+export default Hashtags;

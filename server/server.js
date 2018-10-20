@@ -1,4 +1,10 @@
 const { ApolloServer, gql } = require('apollo-server');
+const database = require('./database');
+
+database.set('foo', 'bar');
+database.get('foo', function (err, result) {
+    console.log(result);
+});
 
 const books = [
     {
@@ -12,16 +18,11 @@ const books = [
 ];
 
 const typeDefs = gql`
-  # Comments in GraphQL are defined with the hash (#) symbol.
-
-  # This "Book" type can be used in other type declarations.
   type Book {
     title: String
     author: String
   }
 
-  # The "Query" type is the root of all GraphQL queries.
-  # (A "Mutation" type will be covered later on.)
   type Query {
     books: [Book]
   }

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-filename-extension */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GrommetApp from 'grommet/components/App';
@@ -13,7 +15,7 @@ ReactDOM.render(
       <Router />
     </StateProvider>
   </GrommetApp>,
-  document.getElementById('root'),
+  window.document.getElementById('root'),
 );
 
 serviceWorker.unregister();

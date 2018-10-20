@@ -1,6 +1,5 @@
 import React from 'react';
 import LoginForm from 'grommet/components/LoginForm';
-import { logInToAccount } from '../../database/authentication';
 import routeTo from '../../router/routeTo';
 import { MATCHES } from '../../router/pages';
 
@@ -31,14 +30,14 @@ class Login extends React.PureComponent {
             isLoading: true,
         });
 
-        logInToAccount(loginInfo)
-            .then(this.handleLoginSuccess)
-            .catch(this.handleLoginFailure)
-            .finally(() => {
-                this.setState({
-                    isLoading: false,
-                });
-            });
+        // logInToAccount(loginInfo)
+        //     .then(this.handleLoginSuccess)
+        //     .catch(this.handleLoginFailure)
+        //     .finally(() => {
+        //         this.setState({
+        //             isLoading: false,
+        //         });
+        //     });
     }
 
     render() {

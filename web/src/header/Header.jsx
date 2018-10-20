@@ -17,7 +17,7 @@ const LeftHandSide = () => (
 
 const RightHandSide = () => (
   <div className="right-hand-side">
-    <Avatar />
+    <Avatar imageUrl="http://placekitten.com/g/200/200" />
     <Menu />
   </div>
 );

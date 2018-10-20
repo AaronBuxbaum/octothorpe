@@ -1,15 +1,14 @@
 import React from 'react';
 import LoginForm from 'grommet/components/LoginForm';
-import { logInToAccount } from '../../database/authentication';
 import routeTo from '../../router/routeTo';
 import { MATCHES } from '../../router/pages';
 
-class Login extends React.PureComponent {
+class Register extends React.PureComponent {
     state = {
         errors: [],
     };
 
-    handleLoginFailure = (error) => {
+    handleRegistrationFailure = (error) => {
         this.setState({
             errors: [error.message],
         });
@@ -21,7 +20,7 @@ class Login extends React.PureComponent {
         });
     }
 
-    handleLoginSuccess = () => {
+    handleRegistrationSuccess = () => {
         this.clearErrors();
         routeTo(MATCHES);
     }
@@ -31,23 +30,23 @@ class Login extends React.PureComponent {
             isLoading: true,
         });
 
-        logInToAccount(loginInfo)
-            .then(this.handleLoginSuccess)
-            .catch(this.handleLoginFailure)
-            .finally(() => {
-                this.setState({
-                    isLoading: false,
-                });
-            });
+        // registerAccount(loginInfo)
+        //     .then(this.handleRegistrationSuccess)
+        //     .catch(this.handleRegistrationFailure)
+        //     .finally(() => {
+        //         this.setState({
+        //             isLoading: false,
+        //         });
+        //     });
     }
 
     render() {
         return (<LoginForm
             onSubmit={this.onSubmit}
             errors={this.state.errors}
-            title="Log In"
+            title="Register"
         />);
     }
 }
 
-export default Login;
+export default Register;

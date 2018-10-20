@@ -6,8 +6,6 @@ import TextInput from 'grommet/components/TextInput';
 import DateTime from 'grommet/components/DateTime';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
-import { withFirestore } from 'react-redux-firebase';
-import { connect } from 'react-redux';
 
 class Profile extends React.PureComponent {
     state = {
@@ -91,9 +89,4 @@ class Profile extends React.PureComponent {
     }
 }
 
-const mapStateToProps = (state) => ({
-    displayName: state.firebase.profile.displayName,
-    photoURL: state.firebase.profile.photoURL,
-});
-
-export default withFirestore(connect(mapStateToProps)(Profile));
+export default Profile;

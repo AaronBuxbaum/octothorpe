@@ -3,7 +3,6 @@ import Menu from "grommet/components/Menu";
 import Anchor from "grommet/components/Anchor";
 import MenuIcon from 'grommet/components/icons/base/Menu';
 import { allLinks, authLinks, noAuthLinks } from "./links.data";
-import { connect } from 'react-redux';
 
 const createAnchorLink = ({
     href,
@@ -33,8 +32,4 @@ class MenuDropdown extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    isAuth: !state.firebase.auth.isAnonymous,
-});
-
-export default connect(mapStateToProps)(MenuDropdown);
+export default MenuDropdown;
