@@ -1,0 +1,29 @@
+version: '3'
+services:
+  database:
+    image: redis:5.0-alpine
+    command: redis-server --port 6000 --appendonly yes
+    ports:
+      - 6000:6000
+    volumes:
+      - ./database:/database
+  flask:
+    build: flask
+    ports:
+      - 5000:5000
+    volumes:
+     - ./flask:/app
+  server:
+    build: server
+    ports:
+      - 4000:4000
+      - 9229:9229
+    volumes:
+      - ./server:/app
+  web:
+    build: web
+    ports:
+     - 3000:3000
+     - 9222:9222
+    volumes:
+      - ./web/src:/app/src

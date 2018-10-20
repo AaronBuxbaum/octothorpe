@@ -1,0 +1,20 @@
+{
+  "name": "octothorpe-server",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-server": "^2.1.0",
+    "graphql": "^14.0.2",
+    "ioredis": "^4.2.0",
+    "mongoose": "^5.3.4"
+  },
+  "scripts": {
+    "start": "node --inspect server.js"
+  },
+  "eslintConfig": {
+    "extends": "airbnb"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0"
+  }
+}
