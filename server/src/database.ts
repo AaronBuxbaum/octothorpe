@@ -1,19 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { connect, connection } from 'mongoose';
 
-const MONGO_URL = 'mongodb://database:27017/testing';
-const options = { useNewUrlParser: true };
+const MONGO_URI = 'mongodb://database:27017/testing';
 
-let db;
+connect(MONGO_URI);
 
-const loadDB = async () => {
-  if (db) {
-    return db;
-  }
-  try {
-    const client = await MongoClient.connect(MONGO_URL, options);
-    db = client.db('testing');
-  } catch (err) { console.error(err); }
-  return db;
-};
+connection.once('open', () => {
+  console.log(`Connection to database was successful.`)
+});
 
-export default loadDB;
+export default connection;
