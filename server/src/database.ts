@@ -1,11 +1,16 @@
-import { connect, connection } from 'mongoose';
+import { connect, connection } from "mongoose";
 
-const MONGO_URI = 'mongodb://database:27017/testing';
+const MONGO_URI = "mongodb://database/testing";
 
 connect(MONGO_URI);
 
-connection.once('open', () => {
-  console.log(`Connection to database was successful.`)
+connection.on("open", () => {
+  console.log("Connect to mongo server.");
+});
+
+connection.on("error", (err) => {
+  console.log("Could not connect to mongo server!");
+  console.log(err);
 });
 
 export default connection;
