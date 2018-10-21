@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import uuid from 'node-uuid';
+import { v1 as getUID } from 'node-uuid';
 
 const authorSchema = new Schema({
-    id: { type: String, default: uuid.v1 },
+    id: { type: String, default: getUID() },
     name: String,
     age: Number,
     books: [String]
