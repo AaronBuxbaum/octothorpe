@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . .
 RUN npm install -g -s --no-progress yarn
 RUN yarn
-CMD ["yarn", "start"]
+CMD ["yarn", "start:watch"]

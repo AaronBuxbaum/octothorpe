@@ -1,55 +1,19 @@
-var nodeExternals = require('webpack-node-externals');
-var webpack = require('webpack');
-var path = require('path');
-var fs = require('fs');
+const nodeExternals = require('webpack-node-externals')();
 
-/* helper function to get into build directory */
-var distPath = function (name) {
-    if (undefined === name) {
-        return path.join('dist');
-    }
-
-    return path.join('dist', name);
-};
-
-var webpack_opts = {
+const options = {
     entry: './src/server.ts',
-    target: 'node',
+    devtool: 'source-map',
     mode: process.env.NODE_ENV || 'development',
-    output: {
-        filename: distPath('server.js'),
-        libraryTarget: "commonjs2"
-    },
     resolve: {
         extensions: ['.ts', '.js'],
-        modules: [
-            'node_modules',
-            'src',
+    },
+    externals: [nodeExternals],
+    module: {
+        rules: [
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
         ]
     },
-    plugins: [
-        new webpack.LoaderOptionsPlugin({
-            options: {
-                test: /\.ts$/,
-                ts: {
-                    compiler: 'typescript',
-                    configFileName: 'tsconfig.json'
-                },
-                tslint: {
-                    emitErrors: true,
-                    failOnHint: true
-                }
-            }
-        })
-    ],
-    devtool: 'source-map',
-    // module: {
-    //     loaders: [{
-    //         test: /\.ts$/,
-    //         loaders: 'awesome-typescript-loader'
-    //     }]
-    // },
-    externals: [nodeExternals()]
 };
 
-module.exports = webpack_opts;
+module.exports = options;
