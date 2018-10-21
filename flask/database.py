@@ -4,5 +4,5 @@
 # client = MongoClient()
 # database = client[database_name]
 
-import redis
-database = redis.Redis("redis")
+# import redis
+# database = redis.Redis("redis")

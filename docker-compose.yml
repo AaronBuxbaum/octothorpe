@@ -1,12 +1,20 @@
 version: '3'
 services:
-  redis:
-    image: redis:5.0-alpine
-    command: redis-server
+  # redis:
+  #   image: redis:5.0-alpine
+  #   command: redis-server
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - ./data:/data
+  database:
+    image: mongo:4.0
+    environment:
+      - MONGO_INITDB_DATABASE=testing
     ports:
-      - 6379:6379
+      - 27017:27017
     volumes:
-      - ./data:/data
+      - ./data:/data/db
   flask:
     build: flask
     ports:
@@ -14,7 +22,7 @@ services:
     volumes:
       - ./flask:/app
     depends_on:
-      - redis
+      - database
   server:
     build: server
     ports:
@@ -23,7 +31,7 @@ services:
     volumes:
       - ./server:/app
     depends_on:
-      - redis
+      - database
   web:
     build: web
     ports:

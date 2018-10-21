@@ -1,10 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
-const database = require('./database');
-
-database.set('foo', 'bar');
-database.get('foo', function (err, result) {
-    console.log(result);
-});
+const loadDB = require('./database');
 
 const books = [
     {
@@ -24,12 +19,20 @@ const typeDefs = gql`
   }
 
   type Query {
+    test: String
     books: [Book]
   }
 `;
 
 const resolvers = {
     Query: {
+        test: async () => {
+            const db = await loadDB();
+            db.collection('some_collection').insertOne({ 'test': Math.random() });
+            const a = await db.collection('some_collection').findOne();
+            console.log(a);
+            return a.test;
+        },
         books: () => books,
     },
 };

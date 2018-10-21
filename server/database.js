@@ -1,7 +1,18 @@
-const Redis = require("ioredis");
+const MongoClient = require('mongodb').MongoClient;
 
-const client = new Redis({
-    host: "redis"
-});
+const MONGO_URL = 'mongodb://database:27017/testing';
 
-module.exports = client;
+let db;
+
+const loadDB = async () => {
+    if (db) {
+        return db;
+    }
+    try {
+        const client = await MongoClient.connect(MONGO_URL);
+        db = client.db('testing');
+    } catch (err) { console.error(err) }
+    return db;
+};
+
+module.exports = loadDB;

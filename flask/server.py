@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database import database
-from scikit import iris
+# from database import database
+from sklearn import datasets
 
 app = Flask(__name__)
 WEB_URL = "http://localhost:3000"
@@ -9,8 +9,9 @@ cors = CORS(app, resources={r"/*": {"origins": WEB_URL}})
 
 @app.route("/")
 def hello():
-    print(database.ping())
-    print(scikit.iris)
+#     print(database.ping())
+    iris = datasets.load_iris()
+    digits = datasets.load_digits()
     return jsonify({"hello": "there"})
 
 if __name__ == "__main__":

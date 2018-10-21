@@ -6,10 +6,7 @@ import client from 'state/client';
 
 const query = gql`
   query {
-    books {
-      title
-      author
-    }
+    test
   }
 `;
 
