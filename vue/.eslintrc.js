@@ -1,20 +1,33 @@
-const errorInProd = process.env.NODE_ENV === 'production' ? 'error' : 'off';
-
 module.exports = {
   root: true,
+
   env: {
     node: true,
   },
+
   extends: [
     'plugin:vue/essential',
     '@vue/airbnb',
     '@vue/typescript',
   ],
+
   rules: {
-    'no-console': errorInProd,
-    'no-debugger': errorInProd,
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'graphql/template-strings': [
+      'error',
+      {
+        env: 'literal',
+        projectName: 'app',
+      },
+    ],
   },
+
   parserOptions: {
     parser: 'typescript-eslint-parser',
   },
+
+  plugins: [
+    'graphql',
+  ],
 };
