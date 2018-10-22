@@ -1,38 +1,20 @@
+const errorInProd = process.env.NODE_ENV === 'production' ? 'error' : 'off';
+
 module.exports = {
   root: true,
-  parserOptions: {
-    parser: 'babel-eslint'
-  },
   env: {
-    browser: true,
+    node: true,
   },
-  extends: ['plugin:vue/recommended', 'airbnb-base'],
-  plugins: [
-    'vue'
+  extends: [
+    'plugin:vue/essential',
+    '@vue/airbnb',
+    '@vue/typescript',
   ],
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: 'build/webpack.base.conf.js'
-      }
-    }
-  },
   rules: {
-    'import/extensions': ['error', 'always', {
-      js: 'never',
-      vue: 'never'
-    }],
-    'no-param-reassign': ['error', {
-      props: true,
-      ignorePropertyModificationsFor: [
-        'state', // for vuex state
-        'acc', // for reduce accumulators
-        'e' // for e.returnvalue
-      ]
-    }],
-    'import/no-extraneous-dependencies': ['error', {
-      optionalDependencies: ['test/unit/index.js']
-    }],
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
-}
+    'no-console': errorInProd,
+    'no-debugger': errorInProd,
+  },
+  parserOptions: {
+    parser: 'typescript-eslint-parser',
+  },
+};
