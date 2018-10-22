@@ -35,4 +35,4 @@ services:
       - 9222:9222
       # - 9229:9229
     volumes:
-      - ./vue:/app
+      - ./vue/src:/app/src
