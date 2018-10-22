@@ -6,13 +6,23 @@ import client from 'state/client';
 
 const query = gql`
   query {
-    test
+    hashtags {
+      name
+    }
+  }
+`;
+
+const mutation = gql`
+  mutation {
+    addHashtag(name: "Testing") {
+      name
+    }
   }
 `;
 
 class Home extends Component {
-  // example request to Flask
   componentDidMount() {
+    // example request to Flask
     global.fetch('http://localhost:5000').then((response) => {
       response.json().then(console.log); // eslint-disable-line no-console
     }).catch(e => console.error(e));

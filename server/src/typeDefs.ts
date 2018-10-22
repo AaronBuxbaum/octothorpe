@@ -1,23 +1,18 @@
 import { gql } from 'apollo-server';
 
 const typeDefs = gql`
-    type Author {
-        id: String
-        age: Int
-        name: String
-        books: [String]
+    type Query {
+        hashtag(id: String): Hashtag,
+        hashtags: [Hashtag]
     }
 
-    type Query {
-        authors: [Author]
-        author(id: String): Author
-        test: String
+    type Hashtag {
+        id: String
+        name: String
     }
 
     type Mutation {
-        addAuthor(name: String!, age: Int!, books: [String]!): Author,
-        deleteAuthor(id: String!): Author,
-        updateAuthor(id: String!, name: String!): Author
+        addHashtag(name: String!): Hashtag,
     }
 `;
 
