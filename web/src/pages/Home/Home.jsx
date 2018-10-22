@@ -12,13 +12,13 @@ const query = gql`
   }
 `;
 
-const mutation = gql`
-  mutation {
-    addHashtag(name: "Testing") {
-      name
-    }
-  }
-`;
+// const mutation = gql`
+//   mutation {
+//     addHashtag(name: "Testing") {
+//       name
+//     }
+//   }
+// `;
 
 class Home extends Component {
   componentDidMount() {

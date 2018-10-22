@@ -9,7 +9,6 @@ cors = CORS(app, resources={r"/*": {"origins": WEB_URL}})
 
 @app.route("/")
 def hello():
-#     print(database.ping())
     iris = datasets.load_iris()
     digits = datasets.load_digits()
     return jsonify({"hello": "there"})
