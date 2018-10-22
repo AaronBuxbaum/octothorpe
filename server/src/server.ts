@@ -8,6 +8,9 @@ const server = new ApolloServer({
   resolvers,
 });
 
-server.listen().then(({ url }) => {
+const initializeServer = async () => {
+  const { url } = await server.listen();
   console.log(`🚀  Server ready at ${url}`);
-});
+};
+
+initializeServer();
