@@ -6,8 +6,6 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "apollo": "vue-cli-service apollo:watch --run \"vue-cli-service serve\"",
-    "apollo:run": "vue-cli-service apollo:run",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
