@@ -1,15 +1,14 @@
-import author from './models/author';
 import hashtag from './models/hashtag';
 
 const resolvers = {
   Query: {
-    hashtag: (root, { id }) => author.findOne({ id }),
+    hashtag: (root, { id }) => hashtag.findOne({ id }),
     hashtags: () => hashtag.find({}),
   },
   Mutation: {
-    addHashtag: (root, { name }) => new hashtag({ name }).save(),
-    // deleteAuthor: (root, { id }) => author.findOneAndRemove({ id }),
-    // updateAuthor: (root, { id, name }) => author.findOneAndUpdate({ id }, { name }),
+    addHashtag: (root, { name, intensity }) => new hashtag({ name, intensity }).save(),
+    deleteHashtag: (root, { id }) => hashtag.findOneAndRemove({ id }),
+    updateHashtag: (root, { id, intensity }) => hashtag.findOneAndUpdate({ id }, { intensity }),
   },
 };
 
