@@ -5,14 +5,9 @@ import { MATCHES } from '../../router/pages';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const UserInfo = {
-    username: String,
-    password: String,
-};
-
-const SIGN_UP = gql`
-  mutation Signup($userInfo: UserInfo) {
-    signup(info: $userInfo) {
+const LOG_IN = gql`
+  mutation Login($userInfo: UserAuthentication!) {
+    login(userInfo: $userInfo) {
       token
     }
   }
@@ -40,27 +35,17 @@ class Login extends React.PureComponent {
         routeTo(MATCHES);
     }
 
-    // onSubmit = (loginInfo) => {
-    //     this.setState({
-    //         isLoading: true,
-    //     });
-
-    //     logInToAccount(loginInfo)
-    //         .then(this.handleLoginSuccess)
-    //         .catch(this.handleLoginFailure)
-    //         .finally(() => {
-    //             this.setState({
-    //                 isLoading: false,
-    //             });
-    //         });
-    // }
-
     render() {
         return (
-            <Mutation mutation={SIGN_UP} ignoreResults>
+            <Mutation
+                mutation={LOG_IN}
+                ignoreResults
+                onCompleted={this.handleLoginSuccess}
+                onError={this.handleLoginFailure}
+            >
                 {(onSubmit) => (
                     <LoginForm
-                        onSubmit={onSubmit}
+                        onSubmit={(userInfo) => onSubmit({ variables: { userInfo } })}
                         usernameType="text"
                         errors={this.state.errors}
                         title="Log In"

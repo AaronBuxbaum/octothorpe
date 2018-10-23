@@ -3,9 +3,9 @@ import { sign } from 'jsonwebtoken';
 import userModel from '../../../models/userModel';
 import { APP_SECRET } from './constants';
 
-const createUser = async (args) => {
-    const { username } = args;
-    const password = await hash(args.password, 10);
+const createUser = async (userInfo) => {
+    const { username } = userInfo;
+    const password = await hash(userInfo.password, 10);
     const user = {
         username,
         password,
@@ -13,9 +13,8 @@ const createUser = async (args) => {
     return new userModel(user).save();
 }
 
-const signup = async (root, args) => {
-    console.log(args);
-    const { username } = await createUser(args);
+const signup = async (root, { userInfo }) => {
+    const { username } = await createUser(userInfo);
     const token = sign(username, APP_SECRET);
     return { token };
 };
