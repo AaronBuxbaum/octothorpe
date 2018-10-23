@@ -1,4 +1,6 @@
 import React from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 import { take } from 'lodash';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
@@ -7,6 +9,14 @@ import TextInput from 'grommet/components/TextInput';
 import Button from 'grommet/components/Button';
 import Footer from 'grommet/components/Footer';
 import SelectedHashtags from './SelectedHashtags';
+
+const UPDATE_HASHTAGS = gql`
+  mutation UpdateHashtags($userInfo: UserAuthentication!) {
+    signup(userInfo: $userInfo) {
+      token
+    }
+  }
+`;
 
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
@@ -147,31 +157,37 @@ class Hashtags extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.handleEnterKey}>
-                <FormFields>
-                    <FormField>
-                        <TextInput
-                            placeHolder="Type the things you like..."
-                            onDOMChange={this.updateSuggestions}
-                            onSelect={this.handleSelectSuggestion}
-                            suggestions={this.state.suggestions}
-                            value={this.state.value}
-                        />
-                    </FormField>
+            <Mutation
+                mutation={UPDATE_HASHTAGS}
+            >
+                {(updateHashtags) => (
+                    <Form onSubmit={this.handleEnterKey}>
+                        <FormFields>
+                            <FormField>
+                                <TextInput
+                                    placeHolder="Type the things you like..."
+                                    onDOMChange={this.updateSuggestions}
+                                    onSelect={this.handleSelectSuggestion}
+                                    suggestions={this.state.suggestions}
+                                    value={this.state.value}
+                                />
+                            </FormField>
 
-                    <SelectedHashtags
-                        items={this.state.selected || []}
-                        removeItem={this.removeSelectedItem}
-                    />
-                </FormFields>
+                            <SelectedHashtags
+                                items={this.state.selected || []}
+                                removeItem={this.removeSelectedItem}
+                            />
+                        </FormFields>
 
-                <Footer pad={{ "vertical": "medium" }}>
-                    <Button
-                        label='Submit'
-                        onClick={this.submitHashtags}
-                    />
-                </Footer>
-            </Form>
+                        <Footer pad={{ "vertical": "medium" }}>
+                            <Button
+                                label='Submit'
+                                onClick={updateHashtags}
+                            />
+                        </Footer>
+                    </Form>
+                )}
+            </Mutation>
         );
     }
 }

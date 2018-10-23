@@ -4,6 +4,7 @@ import routeTo from '../../router/routeTo';
 import { MATCHES } from '../../router/pages';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { saveToken } from '../../storage/localStorage';
 
 const LOG_IN = gql`
   mutation Login($userInfo: UserAuthentication!) {
@@ -30,8 +31,9 @@ class Login extends React.PureComponent {
         });
     }
 
-    handleLoginSuccess = () => {
+    handleLoginSuccess = ({ login }) => {
         this.clearErrors();
+        saveToken(login.token);
         routeTo(MATCHES);
     }
 
@@ -39,7 +41,6 @@ class Login extends React.PureComponent {
         return (
             <Mutation
                 mutation={LOG_IN}
-                ignoreResults
                 onCompleted={this.handleLoginSuccess}
                 onError={this.handleLoginFailure}
             >
