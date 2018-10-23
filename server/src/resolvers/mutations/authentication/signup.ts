@@ -14,8 +14,9 @@ const createUser = async (args) => {
 }
 
 const signup = async (root, args) => {
-    const { _id } = await createUser(args);
-    const token = sign(_id, APP_SECRET);
+    console.log(args);
+    const { username } = await createUser(args);
+    const token = sign(username, APP_SECRET);
     return { token };
 };
 

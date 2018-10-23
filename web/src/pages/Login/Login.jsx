@@ -2,6 +2,21 @@ import React from 'react';
 import LoginForm from 'grommet/components/LoginForm';
 import routeTo from '../../router/routeTo';
 import { MATCHES } from '../../router/pages';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+
+const UserInfo = {
+    username: String,
+    password: String,
+};
+
+const SIGN_UP = gql`
+  mutation Signup($userInfo: UserInfo) {
+    signup(info: $userInfo) {
+      token
+    }
+  }
+`;
 
 class Login extends React.PureComponent {
     state = {
@@ -25,27 +40,34 @@ class Login extends React.PureComponent {
         routeTo(MATCHES);
     }
 
-    onSubmit = (loginInfo) => {
-        this.setState({
-            isLoading: true,
-        });
+    // onSubmit = (loginInfo) => {
+    //     this.setState({
+    //         isLoading: true,
+    //     });
 
-        // logInToAccount(loginInfo)
-        //     .then(this.handleLoginSuccess)
-        //     .catch(this.handleLoginFailure)
-        //     .finally(() => {
-        //         this.setState({
-        //             isLoading: false,
-        //         });
-        //     });
-    }
+    //     logInToAccount(loginInfo)
+    //         .then(this.handleLoginSuccess)
+    //         .catch(this.handleLoginFailure)
+    //         .finally(() => {
+    //             this.setState({
+    //                 isLoading: false,
+    //             });
+    //         });
+    // }
 
     render() {
-        return (<LoginForm
-            onSubmit={this.onSubmit}
-            errors={this.state.errors}
-            title="Log In"
-        />);
+        return (
+            <Mutation mutation={SIGN_UP} ignoreResults>
+                {(onSubmit) => (
+                    <LoginForm
+                        onSubmit={onSubmit}
+                        usernameType="text"
+                        errors={this.state.errors}
+                        title="Log In"
+                    />
+                )}
+            </Mutation>
+        );
     }
 }
 

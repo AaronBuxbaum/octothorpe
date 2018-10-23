@@ -7,7 +7,6 @@ const getUser = (username) => userModel.findOne({ username });
 
 const login = async (root, args) => {
     const user = await getUser(args.username);
-    console.log(user);
 
     if (!user) {
         throw new Error('No such user found')

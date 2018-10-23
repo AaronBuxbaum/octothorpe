@@ -21,13 +21,13 @@ services:
       - 9229:9229
     volumes:
       - ./server:/app
-  # web:
-  #   build: web
-  #   ports:
-  #    - 3000:3000
-  #    - 9222:9222
-  #   volumes:
-  #     - ./web/src:/app/src
+  web:
+    build: web
+    ports:
+     - 3000:3000
+    #  - 9222:9222
+    volumes:
+      - ./web/src:/app/src
   vue:
     build: vue
     ports:
