@@ -3,7 +3,7 @@ import Mutation from './Mutation';
 import Query from './Query';
 
 export default [
-    Hashtag,
-    Mutation,
-    Query,
+  Hashtag,
+  Mutation,
+  Query,
 ];
