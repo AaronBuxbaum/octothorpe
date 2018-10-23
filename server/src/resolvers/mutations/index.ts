@@ -1,11 +1,9 @@
-import addHashtag from './addHashtag';
-import updateHashtag from './updateHashtag';
-import deleteHashtag from './deleteHashtag';
+import hashtag from './hashtag';
+import authentication from './authentication';
 
 const mutations = {
-  addHashtag,
-  updateHashtag,
-  deleteHashtag,
+  ...hashtag,
+  ...authentication,
 };
 
 export default mutations;
