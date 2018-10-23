@@ -1,6 +1,9 @@
 import ApolloClient from 'apollo-boost';
-import link from './link';
+import request from './request';
+
+const uri = 'http://localhost:4000';
 
 export default new ApolloClient({
-  link,
+  uri,
+  request,
 });
