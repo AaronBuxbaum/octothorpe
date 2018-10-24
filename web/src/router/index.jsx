@@ -11,7 +11,6 @@ import {
   HOME, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER,
 } from './pages';
 import { pageRoutes } from './routeTo';
-import AuthenticatedRoutes from './AuthenticatedRoutes';
 
 const componentToRoute = {
   [HOME]: Home,
@@ -34,7 +33,6 @@ const Router = props => (
           key={route}
         />
       ))}
-      <AuthenticatedRoutes />
     </div>
   </BrowserRouter>
 );
