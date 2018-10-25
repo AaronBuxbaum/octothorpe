@@ -1,52 +1,33 @@
 import React from 'react';
-import LoginForm from 'grommet/components/LoginForm';
-import routeTo from '../../router/routeTo';
-import { MATCHES } from '../../router/pages';
 
-class Login extends React.PureComponent {
-    state = {
-        errors: [],
-    };
-
-    handleLoginFailure = (error) => {
-        this.setState({
-            errors: [error.message],
-        });
+const randomData = [
+    {
+        username: 'aaron',
+        firstName: 'Aaron',
+        lastName: 'Buxbaum',
+        rating: 0.83,
+    },
+    {
+        username: 'john',
+        firstName: 'John',
+        rating: 0.91,
+    },
+    {
+        username: 'elon',
+        firstName: 'Elon',
+        lastName: 'Musk',
+        rating: 0.01,
     }
+];
 
-    clearErrors = () => {
-        this.setState({
-            errors: [],
-        });
-    }
+const Matches = () => (
+    <div>
+        {randomData.map(({ firstName, lastName }) =>
+            <div>
+                <span>{firstName} {lastName}</span>
+            </div>)
+        }
+    </div>
+);
 
-    handleLoginSuccess = () => {
-        this.clearErrors();
-        routeTo(MATCHES);
-    }
-
-    onSubmit = (loginInfo) => {
-        this.setState({
-            isLoading: true,
-        });
-
-        // logInToAccount(loginInfo)
-        //     .then(this.handleLoginSuccess)
-        //     .catch(this.handleLoginFailure)
-        //     .finally(() => {
-        //         this.setState({
-        //             isLoading: false,
-        //         });
-        //     });
-    }
-
-    render() {
-        return (<LoginForm
-            onSubmit={this.onSubmit}
-            errors={this.state.errors}
-            title="Log In"
-        />);
-    }
-}
-
-export default Login;
+export default Matches;
