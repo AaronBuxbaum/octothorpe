@@ -1,9 +1,10 @@
 import {
-  HOME, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER,
+  HOME, ABOUT, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER,
 } from './pages';
 
 export const pageRoutes = {
   [HOME]: '/home',
+  [ABOUT]: '/about',
   [PROFILE]: '/profile',
   [MATCHES]: '/matches',
   [HASHTAGS]: '/hashtags',
