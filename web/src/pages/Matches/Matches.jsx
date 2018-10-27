@@ -1,33 +1,35 @@
 import React from 'react';
+import { get } from 'lodash';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import MatchBox from './MatchBox';
 
-const randomData = [
-    {
-        username: 'aaron',
-        firstName: 'Aaron',
-        lastName: 'Buxbaum',
-        rating: 0.83,
-    },
-    {
-        username: 'john',
-        firstName: 'John',
-        rating: 0.91,
-    },
-    {
-        username: 'elon',
-        firstName: 'Elon',
-        lastName: 'Musk',
-        rating: 0.01,
+const MATCHES = gql`
+  query {
+    matches {
+      firstName
+      lastName
+      rating
+      username
     }
-];
+  }
+`;
+
+const buildMatchBox = ({ firstName, lastName, rating, username }) =>
+    <MatchBox
+        firstName={firstName}
+        lastName={lastName}
+        rating={rating}
+        key={username}
+    />;
 
 const Matches = () => (
-    <div>
-        {randomData.map(({ firstName, lastName }) =>
-            <div>
-                <span>{firstName} {lastName}</span>
-            </div>)
-        }
-    </div>
+    <Query query={MATCHES}>
+        {({ data }) => {
+            const matches = get(data, 'matches', []);
+            return matches.map(buildMatchBox);
+        }}
+    </Query>
 );
 
 export default Matches;

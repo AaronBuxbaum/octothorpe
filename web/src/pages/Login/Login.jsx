@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from 'grommet/components/LoginForm';
 import routeTo from '../../router/routeTo';
-import { MATCHES } from '../../router/pages';
+import { REGISTER, MATCHES } from '../../router/pages';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { saveToken } from '../../storage/localStorage';
@@ -14,12 +14,20 @@ const LOG_IN = gql`
   }
 `;
 
+const SIGN_UP = gql`
+  mutation Signup($userInfo: UserAuthentication!) {
+    signup(userInfo: $userInfo) {
+      token
+    }
+  }
+`;
+
 class Login extends React.PureComponent {
     state = {
         errors: [],
     };
 
-    handleLoginFailure = (error) => {
+    handleFailure = (error) => {
         this.setState({
             errors: [error.message],
         });
@@ -31,25 +39,31 @@ class Login extends React.PureComponent {
         });
     }
 
-    handleLoginSuccess = ({ login }) => {
+    handleSuccess = (response) => {
+        const key = Object.keys(response)[0];
+        const token = response[key].token;
         this.clearErrors();
-        saveToken(login.token);
+        saveToken(token);
         routeTo(MATCHES);
     }
+
+    isRegistrationPage = () => this.props.location.pathname.includes(REGISTER);
+
+    getMutation = () =>
+        this.isRegistrationPage() ? SIGN_UP : LOG_IN;
 
     render() {
         return (
             <Mutation
-                mutation={LOG_IN}
-                onCompleted={this.handleLoginSuccess}
-                onError={this.handleLoginFailure}
+                mutation={this.getMutation()}
+                onCompleted={this.handleSuccess}
+                onError={this.handleFailure}
             >
                 {(onSubmit) => (
                     <LoginForm
                         onSubmit={(userInfo) => onSubmit({ variables: { userInfo } })}
                         usernameType="text"
                         errors={this.state.errors}
-                        title="Log In"
                     />
                 )}
             </Mutation>

@@ -6,7 +6,6 @@ import Profile from '../pages/Profile/Profile';
 import Matches from '../pages/Matches/Matches';
 import Hashtags from '../pages/Hashtags/Hashtags';
 import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Register';
 import {
   HOME, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER,
 } from './pages';
@@ -18,7 +17,7 @@ const componentToRoute = {
   [MATCHES]: Matches,
   [HASHTAGS]: Hashtags,
   [LOGIN]: Login,
-  [REGISTER]: Register,
+  [REGISTER]: Login,
 };
 
 const Router = props => (
