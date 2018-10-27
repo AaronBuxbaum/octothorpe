@@ -1,32 +1,35 @@
+import { deleteToken } from '../storage/localStorage';
+
 export const noAuthLinks = [
   {
-    text: 'Register',
+    label: 'Register',
     href: '/register',
   },
   {
-    text: 'Log In',
+    label: 'Log In',
     href: '/login',
   },
 ];
 
 export const authLinks = [
   {
-    text: 'Hashtags',
+    label: 'Hashtags',
     href: '/hashtags',
   },
   {
-    text: 'Profile',
+    label: 'Profile',
     href: '/profile',
   },
   {
-    text: 'Log Out',
-    href: '/logout',
+    label: 'Log Out',
+    href: '/',
+    onClick: deleteToken,
   },
 ];
 
 export const allLinks = [
   {
-    text: 'About',
+    label: 'About',
     href: '/about',
   },
 ];

@@ -6,6 +6,7 @@ const User = gql`
         username: String
         firstName: String
         lastName: String
+        profileImage: String
     }
 `;
 

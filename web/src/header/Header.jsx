@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import './header.scss';
 import Head from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
-import Menu from './MenuDropdown';
-import Avatar from './Avatar';
 import PageTitle from './PageTitle';
+import Menu from './Menu';
 import { HOME } from '../router/pages';
 import { pageRoutes } from '../router/routeTo';
 
@@ -15,21 +14,14 @@ const LeftHandSide = () => (
   </Link>
 );
 
-const RightHandSide = () => (
-  <div className="right-hand-side">
-    <Avatar imageUrl="http://placekitten.com/g/200/200" />
-    <Menu />
-  </div>
-);
-
 const Header = () => (
-    <>
-      <Head style={{ justifyContent: 'space-between' }}>
-        <LeftHandSide />
-        <RightHandSide />
-      </Head>
-      <PageTitle />
-    </>
+  <>
+    <Head style={{ justifyContent: 'space-between' }}>
+      <LeftHandSide />
+      <Menu />
+    </Head>
+    <PageTitle />
+  </>
 );
 
 export default Header;
