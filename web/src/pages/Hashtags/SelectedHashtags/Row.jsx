@@ -31,15 +31,15 @@ const Row = ({
   item,
   removeItem,
 }) => (
-  <ListItem justify="between" separator="horizontal">
-    <span>
-      {item.title}
-    </span>
-    <span className="secondary" style={infoColumnStyle}>
-      {formatPopularity(item.popularity)}
-      <CloseButton onClick={removeItem} />
-    </span>
-  </ListItem>
-);
+    <ListItem justify="between" separator="horizontal">
+      <span>
+        {item.title}
+      </span>
+      <span className="secondary" style={infoColumnStyle}>
+        {formatPopularity(item.popularity)}
+        <CloseButton onClick={removeItem} />
+      </span>
+    </ListItem>
+  );
 
 export default Row;

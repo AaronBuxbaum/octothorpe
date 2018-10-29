@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'lodash';
 import Form from 'grommet/components/Form';
@@ -11,9 +11,19 @@ import Footer from 'grommet/components/Footer';
 import SelectedHashtags from './SelectedHashtags';
 
 const UPDATE_HASHTAGS = gql`
-  mutation UpdateHashtags($userInfo: UserAuthentication!) {
-    signup(userInfo: $userInfo) {
-      token
+  mutation UpdateHashtags($title: String!) {
+    addHashtag(title: $title, intensity: 1) {
+        id
+    }
+  }
+`;
+
+const GET_HASHTAGS = gql`
+  query {
+    hashtags {
+        id
+        title
+        intensity
     }
   }
 `;
@@ -39,15 +49,15 @@ class Hashtags extends React.Component {
         value: '',
     };
 
-    componentDidMount() {
-        const selected = this.props[hashtags].map((hashtag) => ({
-            title: hashtag.value,
-            popularity: 1,
-        }));
-        this.setState({
-            selected,
-        });
-    };
+    // componentDidMount() {
+    // const selected = this.props[hashtags].map((hashtag) => ({
+    //     title: hashtag.value,
+    //     popularity: 1,
+    // }));
+    // this.setState({
+    //     selected,
+    // });
+    // };
 
     getSuggestions = (input) => {
         const startsWithInput = (suggestion) => suggestion.startsWith(input);
@@ -133,28 +143,6 @@ class Hashtags extends React.Component {
         window.location.assign('/matches');
     };
 
-    submitHashtags = () => {
-        const db = this.props.firestore;
-        const uid = this.props.uid;
-
-        db.collection(hashtags)
-            .where('uid', '==', uid)
-            .get()
-            .then((snapshot) => {
-                const batch = db.batch();
-                snapshot.forEach(({ ref }) => batch.delete(ref));
-                return batch.commit();
-            })
-            .then(() =>
-                this.state.selected.forEach(({ title }) => {
-                    return db.add(
-                        { collection: hashtags },
-                        { value: title, uid },
-                    );
-                })
-            );
-    };
-
     render() {
         return (
             <Mutation
@@ -173,16 +161,20 @@ class Hashtags extends React.Component {
                                 />
                             </FormField>
 
-                            <SelectedHashtags
-                                items={this.state.selected || []}
-                                removeItem={this.removeSelectedItem}
-                            />
+                            <Query query={GET_HASHTAGS}>
+                                {({ data }) => (
+                                    <SelectedHashtags
+                                        items={data.hashtags || []}
+                                    // removeItem={this.removeSelectedItem}
+                                    />
+                                )}
+                            </Query>
                         </FormFields>
 
                         <Footer pad={{ "vertical": "medium" }}>
                             <Button
                                 label='Submit'
-                                onClick={updateHashtags}
+                                onClick={() => updateHashtags({ variables: { title: 'dddd' } })}
                             />
                         </Footer>
                     </Form>
@@ -191,7 +183,5 @@ class Hashtags extends React.Component {
         );
     }
 }
-
-const hashtags = 'hashtags';
 
 export default Hashtags;

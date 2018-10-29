@@ -3,7 +3,7 @@ import { gql } from 'apollo-server';
 const Hashtag = gql`
     type Hashtag {
         id: ID
-        name: String
+        title: String
         intensity: Float
     }
 `;

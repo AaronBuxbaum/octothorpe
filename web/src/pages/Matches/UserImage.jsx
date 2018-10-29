@@ -1,10 +1,9 @@
 import React from 'react';
-import { random } from 'lodash';
 import './UserImage.scss';
 
-const UserImage = () => (
+const UserImage = ({ image }) => (
     <img
-        src={`http://placekitten.com/g/${random(150, 400)}/${random(150, 400)}`}
+        src={image}
         alt="profile"
         className="profile-image"
     />

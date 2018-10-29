@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose';
 
 const hashtagSchema = new Schema({
-  name: String!,
+  title: String!,
+  intensity: Number
 });
 
 const hashtagModel = model('hashtag', hashtagSchema);

@@ -13,7 +13,8 @@ export const pageRoutes = {
 };
 
 const routeTo = (pageName) => {
-  window.location.assign(pageRoutes[pageName] || pageRoutes[HOME]);
+  const page = pageRoutes[pageName] || pageRoutes[HOME];
+  window.location.assign(page);
 };
 
 export default routeTo;

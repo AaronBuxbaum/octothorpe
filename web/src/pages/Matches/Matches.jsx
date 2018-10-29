@@ -1,6 +1,6 @@
 import React from 'react';
 import { get } from 'lodash';
-import { Query } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import MatchBox from './MatchBox';
 
@@ -9,27 +9,29 @@ const MATCHES = gql`
     matches {
       firstName
       lastName
+      image
       rating
       username
     }
   }
 `;
 
-const buildMatchBox = ({ firstName, lastName, rating, username }) =>
+const buildMatchBox = ({ firstName, lastName, image, rating, username }) =>
     <MatchBox
         firstName={firstName}
         lastName={lastName}
         rating={rating}
+        image={image}
         key={username}
     />;
 
-const Matches = () => (
-    <Query query={MATCHES}>
-        {({ data }) => {
-            const matches = get(data, 'matches', []);
-            return matches.map(buildMatchBox);
-        }}
-    </Query>
+const Matches = ({ data }) => {
+    const matches = get(data, 'matches', []);
+    return matches.map(buildMatchBox);
+};
+
+const enhance = compose(
+    graphql(MATCHES),
 );
 
-export default Matches;
+export default enhance(Matches);

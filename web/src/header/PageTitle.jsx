@@ -5,7 +5,7 @@ import Heading from 'grommet/components/Heading';
 import { pageRoutes } from '../router/routeTo';
 
 const mapTitle = ({ location }) => ({
-  title: Object.keys(pageRoutes).find(key => pageRoutes[key] === location.pathname),
+  title: Object.keys(pageRoutes).find((key) => pageRoutes[key] === location.pathname),
 });
 
 const PageTitle = ({ title }) => (

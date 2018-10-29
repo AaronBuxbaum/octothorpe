@@ -4,10 +4,10 @@ import UserImage from './UserImage';
 import UserInfo from './UserInfo';
 import './MatchBox.scss';
 
-const MatchBox = ({ firstName, lastName, rating }) => (
+const MatchBox = ({ firstName, lastName, image, rating }) => (
     <Link to="/TODO" style={{ textDecoration: 'none' }}>
         <div className="matchbox">
-            <UserImage />
+            <UserImage image={image} />
             <UserInfo
                 firstName={firstName}
                 lastName={lastName}
