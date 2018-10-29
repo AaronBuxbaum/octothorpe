@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { compose, graphql, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'lodash';
 import Form from 'grommet/components/Form';
@@ -144,44 +144,42 @@ class Hashtags extends React.Component {
     };
 
     render() {
+        const { updateHashtags } = this.props;
         return (
-            <Mutation
-                mutation={UPDATE_HASHTAGS}
-            >
-                {(updateHashtags) => (
-                    <Form onSubmit={this.handleEnterKey}>
-                        <FormFields>
-                            <FormField>
-                                <TextInput
-                                    placeHolder="Type the things you like..."
-                                    onDOMChange={this.updateSuggestions}
-                                    onSelect={this.handleSelectSuggestion}
-                                    suggestions={this.state.suggestions}
-                                    value={this.state.value}
-                                />
-                            </FormField>
+            <Form onSubmit={this.handleEnterKey}>
+                <FormFields>
+                    <FormField>
+                        <TextInput
+                            placeHolder="Type the things you like..."
+                            onDOMChange={this.updateSuggestions}
+                            onSelect={this.handleSelectSuggestion}
+                            suggestions={this.state.suggestions}
+                            value={this.state.value}
+                        />
+                    </FormField>
 
-                            <Query query={GET_HASHTAGS}>
-                                {({ data }) => (
-                                    <SelectedHashtags
-                                        items={data.hashtags || []}
-                                    // removeItem={this.removeSelectedItem}
-                                    />
-                                )}
-                            </Query>
-                        </FormFields>
+                    <Query query={GET_HASHTAGS}>
+                        {({ data }) => (
+                            <SelectedHashtags items={data.hashtags || []} />
+                        )}
+                    </Query>
+                </FormFields>
 
-                        <Footer pad={{ "vertical": "medium" }}>
-                            <Button
-                                label='Submit'
-                                onClick={() => updateHashtags({ variables: { title: 'dddd' } })}
-                            />
-                        </Footer>
-                    </Form>
-                )}
-            </Mutation>
+                <Footer pad={{ "vertical": "medium" }}>
+                    <Button
+                        label='Submit'
+                        onClick={() => updateHashtags({ variables: { title: 'dddd' } })}
+                    />
+                </Footer>
+            </Form>
         );
     }
 }
 
-export default Hashtags;
+const enhance = compose(
+    graphql(UPDATE_HASHTAGS, {
+        name: 'updateHashtags',
+    }),
+);
+
+export default enhance(Hashtags);
