@@ -6,7 +6,7 @@ import List from 'grommet/components/List';
 import Row from './Row';
 // import Hashtags from '../Hashtags';
 
-const GET_HASHTAGS = gql`
+export const GET_HASHTAGS = gql`
   query {
     hashtags {
         id
@@ -25,11 +25,11 @@ const DELETE_HASHTAG = gql`
 `;
 
 const SelectedHashtags = ({
-  items,
+  hashtags,
   deleteHashtag,
 }) => (
     <List>
-      {items.map((item) => (
+      {(hashtags || []).map((item) => (
         <Row
           item={item}
           removeItem={() => deleteHashtag({ variables: { id: item.id } })}
@@ -39,7 +39,12 @@ const SelectedHashtags = ({
     </List>
   );
 
+const a = 3;
+
 const enhance = compose(
+  graphql(GET_HASHTAGS, {
+    name: 'hashtags'
+  }),
   graphql(DELETE_HASHTAG, {
     name: 'deleteHashtag',
     options: {
@@ -48,7 +53,6 @@ const enhance = compose(
         console.log(data);
         const { id } = data.deleteHashtag;
         console.log({ ...hashtags });
-        console.log({ ...data });
         const index = findIndex(hashtags, { id });
         hashtags.splice(index, 1);
         console.log(hashtags);

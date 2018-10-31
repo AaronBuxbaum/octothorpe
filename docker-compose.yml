@@ -25,6 +25,7 @@ services:
     build: web
     ports:
      - 3000:3000
+     - 35729:35729
      - 9222:9222
     volumes:
       - ./web/src:/app/src

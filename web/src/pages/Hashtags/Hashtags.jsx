@@ -18,16 +18,6 @@ const UPDATE_HASHTAGS = gql`
   }
 `;
 
-const GET_HASHTAGS = gql`
-  query {
-    hashtags {
-        id
-        title
-        intensity
-    }
-  }
-`;
-
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
     'things',
@@ -158,11 +148,7 @@ class Hashtags extends React.Component {
                         />
                     </FormField>
 
-                    <Query query={GET_HASHTAGS}>
-                        {({ data }) => (
-                            <SelectedHashtags items={data.hashtags || []} />
-                        )}
-                    </Query>
+                    <SelectedHashtags />
                 </FormFields>
 
                 <Footer pad={{ "vertical": "medium" }}>
