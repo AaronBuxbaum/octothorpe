@@ -5,4 +5,4 @@ ADD yarn.lock .
 RUN npm install -g -s --no-progress yarn
 RUN yarn
 ADD . .
-CMD ["yarn", "start"]
+CMD ["yarn", "start", "|", "cat"]
