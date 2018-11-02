@@ -29,17 +29,20 @@ const infoColumnStyle = {
 
 const Row = ({
   item,
-  removeItem,
-}) => (
+}) => {
+  const { id, popularity, title } = item;
+
+  return (
     <ListItem justify="between" separator="horizontal">
       <span>
-        {item.title}
+        {title}
       </span>
       <span className="secondary" style={infoColumnStyle}>
-        {formatPopularity(item.popularity)}
-        <CloseButton onClick={removeItem} />
+        {formatPopularity(popularity)}
+        <CloseButton id={id} />
       </span>
     </ListItem>
   );
+};
 
 export default Row;

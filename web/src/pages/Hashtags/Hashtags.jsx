@@ -1,22 +1,12 @@
 import React from 'react';
-import { compose, graphql, Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { compose, graphql } from 'react-apollo';
 import { take } from 'lodash';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
-import Button from 'grommet/components/Button';
-import Footer from 'grommet/components/Footer';
 import SelectedHashtags from './SelectedHashtags';
-
-const UPDATE_HASHTAGS = gql`
-  mutation UpdateHashtags($title: String!) {
-    addHashtag(title: $title, intensity: 1) {
-        id
-    }
-  }
-`;
+import { ADD_HASHTAG, GET_HASHTAGS } from './queries';
 
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
@@ -32,22 +22,10 @@ const popularitiesMap = {
 
 class Hashtags extends React.Component {
     state = {
-        isWorking: false,
-        selected: [],
         suggestions: [],
         popularities: {},
         value: '',
     };
-
-    // componentDidMount() {
-    // const selected = this.props[hashtags].map((hashtag) => ({
-    //     title: hashtag.value,
-    //     popularity: 1,
-    // }));
-    // this.setState({
-    //     selected,
-    // });
-    // };
 
     getSuggestions = (input) => {
         const startsWithInput = (suggestion) => suggestion.startsWith(input);
@@ -61,11 +39,9 @@ class Hashtags extends React.Component {
         const newPopularities = {};
 
         items.forEach((item) => {
-            if (this.state.popularities[item]) {
-                return;
+            if (!this.state.popularities[item]) {
+                newPopularities[item] = popularitiesMap[item] || 1;
             }
-
-            newPopularities[item] = popularitiesMap[item] || 1;
         });
 
         return { ...this.state.popularities, ...newPopularities };
@@ -83,8 +59,8 @@ class Hashtags extends React.Component {
     };
 
     getItemAlreadyExists = (title) => {
-        const titleEquals = (selected) => selected.title === title;
-        return this.state.selected.some(titleEquals);
+        const titleEquals = (selectedItem) => selectedItem.title === title;
+        return this.props.data.hashtags.some(titleEquals);
     };
 
     getItemIsInvalid = (title) => {
@@ -97,20 +73,22 @@ class Hashtags extends React.Component {
         return false;
     };
 
+    clearValue = () => {
+        this.setState({ value: '' });
+    }
+
     handleSelectItem = (title) => {
         if (this.getItemIsInvalid(title)) {
             return;
         }
 
-        const newSelectedItem = {
+        this.clearValue();
+
+        const newItem = {
             popularity: this.state.popularities[title],
             title,
         };
-
-        this.setState(({ selected }) => ({
-            selected: selected.concat(newSelectedItem),
-            value: '',
-        }));
+        this.props.addHashtag({ variables: newItem })
     };
 
     handleSelectSuggestion = ({ suggestion }) => {
@@ -122,19 +100,11 @@ class Hashtags extends React.Component {
         this.handleSelectItem(this.state.value.trim());
     };
 
-    removeSelectedItem = (index) => {
-        this.setState(({ selected }) => {
-            selected.splice(index, 1);
-            return { selected };
-        });
-    };
-
     routeToMatches = () => {
         window.location.assign('/matches');
     };
 
     render() {
-        const { updateHashtags } = this.props;
         return (
             <Form onSubmit={this.handleEnterKey}>
                 <FormFields>
@@ -147,24 +117,21 @@ class Hashtags extends React.Component {
                             value={this.state.value}
                         />
                     </FormField>
-
-                    <SelectedHashtags />
                 </FormFields>
 
-                <Footer pad={{ "vertical": "medium" }}>
-                    <Button
-                        label='Submit'
-                        onClick={() => updateHashtags({ variables: { title: 'dddd' } })}
-                    />
-                </Footer>
+                <SelectedHashtags />
             </Form>
         );
     }
 }
 
 const enhance = compose(
-    graphql(UPDATE_HASHTAGS, {
-        name: 'updateHashtags',
+    graphql(GET_HASHTAGS),
+    graphql(ADD_HASHTAG, {
+        name: 'addHashtag',
+        options: {
+            refetchQueries: () => [{ query: GET_HASHTAGS }],
+        },
     }),
 );
 
