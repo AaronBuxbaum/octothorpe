@@ -1,37 +1,33 @@
 import React from 'react';
-import { get } from 'lodash';
+import { branch, renderNothing } from 'recompose';
+import { isEmpty } from 'lodash';
 import { compose, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import MatchBox from './MatchBox';
+import { MATCHES } from './queries';
 
-const MATCHES = gql`
-  query {
-    matches {
-      firstName
-      lastName
-      image
-      rating
-      username
-    }
-  }
-`;
+const buildMatchBox = ({
+    firstName,
+    lastName,
+    image,
+    rating,
+    username,
+}) => (
+        <MatchBox
+            firstName={firstName}
+            lastName={lastName}
+            rating={rating}
+            image={image}
+            key={username}
+        />
+    );
 
-const buildMatchBox = ({ firstName, lastName, image, rating, username }) =>
-    <MatchBox
-        firstName={firstName}
-        lastName={lastName}
-        rating={rating}
-        image={image}
-        key={username}
-    />;
+const Matches = ({ data }) => data.matches.map(buildMatchBox);
 
-const Matches = ({ data }) => {
-    const matches = get(data, 'matches', []);
-    return matches.map(buildMatchBox);
-};
+const hasNoMatches = ({ data }) => isEmpty(data.matches);
 
 const enhance = compose(
     graphql(MATCHES),
+    branch(hasNoMatches, renderNothing),
 );
 
 export default enhance(Matches);
