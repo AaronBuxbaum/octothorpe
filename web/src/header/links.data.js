@@ -1,35 +1,21 @@
 import { deleteToken } from '../storage/localStorage';
+import { ABOUT, HASHTAGS, PROFILE, LOGIN, REGISTER } from '../router/pages';
 
 export const noAuthLinks = [
-  {
-    label: 'Register',
-    href: '/register',
-  },
-  {
-    label: 'Log In',
-    href: '/login',
-  },
+  REGISTER,
+  LOGIN,
 ];
 
 export const authLinks = [
+  HASHTAGS,
+  PROFILE,
   {
-    label: 'Hashtags',
-    href: '/hashtags',
-  },
-  {
-    label: 'Profile',
-    href: '/profile',
-  },
-  {
-    label: 'Log Out',
-    href: '/',
+    title: 'Log Out',
+    path: '/',
     onClick: deleteToken,
   },
 ];
 
 export const allLinks = [
-  {
-    label: 'About',
-    href: '/about',
-  },
+  ABOUT,
 ];

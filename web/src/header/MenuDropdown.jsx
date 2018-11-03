@@ -1,23 +1,15 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
-import gql from 'graphql-tag';
+import { LOGGED_IN_USER } from './queries';
 import Menu from "grommet/components/Menu";
 import Anchor from "grommet/components/Anchor";
 import MenuIcon from 'grommet/components/icons/base/Menu';
 import { allLinks, authLinks, noAuthLinks } from "./links.data";
 
-const createAnchorLink = (props) => (
-    <Anchor {...props} key={props.label} />
+const createAnchorLink = ({ path, title, onClick }) => (
+    <Anchor href={path} label={title} onClick={onClick} key={title} />
 );
-
-const LOGGED_IN_USER = gql`
-    query LoggedInUser {
-        user {
-            username
-        }
-    }
-`;
 
 class MenuDropdown extends React.Component {
     isLoggedIn = () => !!get(this.props, 'data.user.username');
