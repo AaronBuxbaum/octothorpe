@@ -1,11 +1,11 @@
-import { deleteToken } from '../storage/localStorage';
+import { deleteToken } from '../../storage/localStorage';
 import {
   ABOUT,
   HASHTAGS,
   PROFILE,
   LOGIN,
   REGISTER,
-} from '../router/pages';
+} from '../../router/pages';
 
 export const noAuthLinks = [
   REGISTER,

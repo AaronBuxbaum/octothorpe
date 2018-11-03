@@ -6,6 +6,7 @@ import { REGISTER, MATCHES } from '../../router/pages';
 import { Mutation } from 'react-apollo';
 import { saveToken } from '../../storage/localStorage';
 import { LOG_IN, SIGN_UP } from './queries';
+import { LOGGED_IN_USER } from '../Header/queries';
 
 class Login extends React.Component {
     state = {
@@ -33,6 +34,15 @@ class Login extends React.Component {
         this.routeToNextPage();
     }
 
+    updateCache = (cache, { data }) => {
+        const key = Object.keys(data)[0];
+        const user = data[key];
+        cache.writeQuery({
+            query: LOGGED_IN_USER,
+            data: { user }
+        });
+    }
+
     isRegistrationPage = () =>
         this.props.location.pathname === REGISTER.path;
 
@@ -43,6 +53,7 @@ class Login extends React.Component {
         return (
             <Mutation
                 mutation={this.getMutation()}
+                update={this.updateCache}
                 onCompleted={this.handleSuccess}
                 onError={this.handleFailure}
             >

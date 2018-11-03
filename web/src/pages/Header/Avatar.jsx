@@ -4,18 +4,18 @@ import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import './header.scss';
-import { PROFILE } from '../router/pages';
+import { PROFILE } from '../../router/pages';
 import { LOGGED_IN_USER } from './queries';
 
 const getProfileImage = (data) => get(data, 'user.profileImage');
 
-const isNotLoggedIn = ({ data }) => !data.user;
+const hasNoAvatar = ({ data }) => !getProfileImage(data);
 
 const Avatar = ({ data }) => (
   <Link to={PROFILE.path}>
     <img
       src={getProfileImage(data)}
-      alt="Avatar"
+      alt="avatar"
       className="avatar"
     />
   </Link>
@@ -23,7 +23,7 @@ const Avatar = ({ data }) => (
 
 const enhance = compose(
   graphql(LOGGED_IN_USER),
-  branch(isNotLoggedIn, renderNothing),
+  branch(hasNoAvatar, renderNothing),
 );
 
 export default enhance(Avatar);

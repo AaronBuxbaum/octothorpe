@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Title from 'grommet/components/Title';
-import { HOME } from '../router/pages';
+import { HOME } from '../../router/pages';
 
 const APP_NAME = 'Octothorpe';
 
