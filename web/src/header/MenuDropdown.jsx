@@ -11,23 +11,21 @@ const createAnchorLink = ({ path, title, onClick }) => (
     <Anchor href={path} label={title} onClick={onClick} key={title} />
 );
 
-class MenuDropdown extends React.Component {
-    isLoggedIn = () => !!get(this.props, 'data.user.username');
+const isLoggedIn = (data) => !!get(data, 'user.username');
 
-    getLinks = () => {
-        const links = this.isLoggedIn() ? authLinks : noAuthLinks;
-        return links.concat(allLinks);
-    };
+const getLinks = (data) => {
+    const links = isLoggedIn(data) ? authLinks : noAuthLinks;
+    return links.concat(allLinks);
+};
 
-    render() {
-        return (<Menu
-            icon={<MenuIcon />}
-            dropAlign={{ "right": "right" }}
-        >
-            {this.getLinks().map(createAnchorLink)}
-        </Menu>);
-    }
-}
+const MenuDropdown = ({ data }) => (
+    <Menu
+        icon={<MenuIcon />}
+        dropAlign={{ "right": "right" }}
+    >
+        {getLinks(data).map(createAnchorLink)}
+    </Menu>
+);
 
 const enhance = compose(
     graphql(LOGGED_IN_USER),
