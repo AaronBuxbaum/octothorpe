@@ -1,11 +1,12 @@
 import React from 'react';
+import { get } from 'lodash';
 import { compose, mapProps } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import Heading from 'grommet/components/Heading';
-import { pageRoutes } from '../router/routeTo';
+import pages from '../router/pages';
 
 const mapTitle = ({ location }) => ({
-  title: Object.keys(pageRoutes).find((key) => pageRoutes[key] === location.pathname),
+  title: get(pages, [location.pathname, 'title']),
 });
 
 const PageTitle = ({ title }) => (

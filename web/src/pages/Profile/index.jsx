@@ -7,7 +7,7 @@ import DateTime from 'grommet/components/DateTime';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
-class Profile extends React.PureComponent {
+class Profile extends React.Component {
     state = {
         birthdate: '',
         errors: [],

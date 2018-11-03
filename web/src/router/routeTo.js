@@ -1,19 +1,7 @@
-import {
-  HOME, ABOUT, PROFILE, MATCHES, HASHTAGS, LOGIN, REGISTER,
-} from './pages';
-
-export const pageRoutes = {
-  [HOME]: '/home',
-  [ABOUT]: '/about',
-  [PROFILE]: '/profile',
-  [MATCHES]: '/matches',
-  [HASHTAGS]: '/hashtags',
-  [LOGIN]: '/login',
-  [REGISTER]: '/register',
-};
+import pages from './pages';
 
 const routeTo = (pageName) => {
-  const page = pageRoutes[pageName] || pageRoutes[HOME];
+  const page = pages[pageName] || pages['HOME'];
   window.location.assign(page);
 };
 

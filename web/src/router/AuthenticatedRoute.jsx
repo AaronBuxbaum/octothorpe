@@ -1,30 +1,28 @@
-import { Component } from 'react';
+import React from 'react';
+import { filter } from 'lodash';
 import { Route } from 'react-router-dom';
 import { getToken } from '../storage/localStorage';
 import RedirectToLogin from './RedirectToLogin';
+import pages from './pages';
 
-const isAuthenticated = () => {
-    return getToken()
-};
+const authenticationPages = filter(pages, ({ requiresAuth }) => requiresAuth);
 
-class AuthenticatedRoute extends Component {
-    render() {
-        const {
-            component: Component,
-            ...props
-        } = this.props
-
-        return (
-            <Route
-                {...props}
-                render={(props) => (
-                    isAuthenticated() ?
-                        <Component {...props} /> :
-                        <RedirectToLogin />
-                )}
-            />
-        )
-    }
+const isUnauthenticated = (path) => {
+    return !!authenticationPages[path] && !getToken();
 }
+
+const AuthenticatedRoute = ({
+    component: Component,
+    ...props
+}) => (
+        <Route
+            {...props}
+            render={(props) => (
+                isUnauthenticated(props.match.path) ?
+                    <RedirectToLogin /> :
+                    <Component {...props} />
+            )}
+        />
+    );
 
 export default AuthenticatedRoute;

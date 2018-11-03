@@ -3,26 +3,10 @@ import LoginForm from 'grommet/components/LoginForm';
 import routeTo from '../../router/routeTo';
 import { REGISTER, MATCHES } from '../../router/pages';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import { saveToken } from '../../storage/localStorage';
+import { LOG_IN, SIGN_UP } from './queries';
 
-const LOG_IN = gql`
-  mutation Login($userInfo: UserAuthentication!) {
-    login(userInfo: $userInfo) {
-      token
-    }
-  }
-`;
-
-const SIGN_UP = gql`
-  mutation Signup($userInfo: UserAuthentication!) {
-    signup(userInfo: $userInfo) {
-      token
-    }
-  }
-`;
-
-class Login extends React.PureComponent {
+class Login extends React.Component {
     state = {
         errors: [],
     };

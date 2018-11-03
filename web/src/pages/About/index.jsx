@@ -1,8 +1,10 @@
 import React from 'react';
 
+const ABOUT_MESSAGE = 'This is an about page';
+
 const About = () => (
     <div>
-        This is an about page
+        {ABOUT_MESSAGE}
     </div>
 );
 
