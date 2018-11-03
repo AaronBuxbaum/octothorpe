@@ -4,7 +4,6 @@ const Hashtag = gql`
     type Hashtag {
         id: ID
         title: String
-        intensity: Float
     }
 `;
 

@@ -1,8 +1,8 @@
 import hashtagModel from '../../../models/hashtagModel';
 
-const addHashtag = (root, { title, intensity }) => {
+const addHashtag = (root, { title }) => {
     // hashtagModel.collection.drop();
-    return new hashtagModel({ title, intensity }).save();
+    return new hashtagModel({ title }).save();
 }
 
 export default addHashtag;

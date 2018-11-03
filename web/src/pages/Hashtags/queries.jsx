@@ -5,14 +5,13 @@ export const GET_HASHTAGS = gql`
     hashtags {
       id
       title
-      intensity
     }
   }
 `;
 
 export const ADD_HASHTAG = gql`
   mutation AddHashtag($title: String!) {
-    addHashtag(title: $title, intensity: 1) {
+    addHashtag(title: $title) {
         id
     }
   }
