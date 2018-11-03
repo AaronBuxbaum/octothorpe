@@ -5,10 +5,10 @@ import Heading from 'grommet/components/Heading';
 import CloseButton from './CloseButton';
 
 const Hashtag = ({ item }) => (
-  <Tile align='start' basis='1/4'>
+  <Tile align='start'>
     <Header size='small' pad={{ "horizontal": "small" }}>
       <Heading tag='h4' strong margin='none'>
-        {item.title}
+        #{item.title}
       </Heading>
       <CloseButton id={item.id} />
     </Header>

@@ -49,11 +49,11 @@ class Hashtags extends React.Component {
 
     handleUpdate = (event) => {
         const { value } = event.target;
-        this.updateSuggestions(value);
+        this.updateSuggestions(value.trim());
     }
 
     updateSuggestions = (value) => {
-        const suggestions = this.getSuggestions(value.trim());
+        const suggestions = this.getSuggestions(value);
         const popularities = this.getPopularities(suggestions);
         this.setState({
             suggestions,
@@ -68,7 +68,7 @@ class Hashtags extends React.Component {
     };
 
     getItemIsInvalid = (title) => {
-        if (title.length < 2) {
+        if (title.length < 1) {
             return true;
         }
         if (this.getItemAlreadyExists(title)) {
