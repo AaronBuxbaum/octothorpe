@@ -1,11 +1,11 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
-import List from 'grommet/components/List';
-import Row from './Row';
+import Tiles from 'grommet/components/Tiles';
+import Hashtag from './Hashtag';
 import { GET_HASHTAGS } from '../queries';
 
-const buildRow = (item) => (
-  <Row
+const buildHashtags = (item) => (
+  <Hashtag
     item={item}
     key={item.id}
   />
@@ -14,9 +14,9 @@ const buildRow = (item) => (
 const SelectedHashtags = ({
   data,
 }) => (
-    <List>
-      {data.hashtags && data.hashtags.map(buildRow)}
-    </List>
+    <Tiles>
+      {data.hashtags && data.hashtags.map(buildHashtags)}
+    </Tiles>
   );
 
 const enhance = compose(

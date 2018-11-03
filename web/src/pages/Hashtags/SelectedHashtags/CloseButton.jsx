@@ -1,17 +1,18 @@
 import React from 'react';
+import './styles.scss';
+import { mapProps } from 'recompose';
 import Close from 'grommet/components/icons/base/Close';
 import { compose, graphql } from 'react-apollo';
 import { GET_HASHTAGS, DELETE_HASHTAG } from '../queries';
 
 const CloseButton = ({
-  id,
   deleteHashtag,
 }) => (
     <Close
       colorIndex="error"
-      onClick={() => deleteHashtag({ variables: { id } })}
+      onClick={deleteHashtag}
       size="xsmall"
-      style={{ marginLeft: '8px', cursor: 'pointer' }}
+      className="close-button"
     />
   );
 
@@ -22,6 +23,9 @@ const enhance = compose(
       refetchQueries: () => [{ query: GET_HASHTAGS }],
     },
   }),
+  mapProps(({ id, deleteHashtag }) => ({
+    deleteHashtag: () => deleteHashtag({ variables: { id } }),
+  }))
 );
 
 export default enhance(CloseButton);

@@ -1,0 +1,15 @@
+.close-button {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.hashtag-bubble {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    border: 1px solid lightgray;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px;
+}

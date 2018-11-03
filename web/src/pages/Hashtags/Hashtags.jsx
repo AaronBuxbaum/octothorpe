@@ -10,21 +10,21 @@ import { ADD_HASHTAG, GET_HASHTAGS } from './queries';
 
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
-    'things',
-    'more things',
-    'scuba diving',
+    '#things',
+    '#more things',
+    '#scuba diving',
 ];
 const popularitiesMap = {
-    'things': 1,
-    'more things': 3,
-    'scuba diving': 9049,
+    '#things': 1,
+    '#more things': 3,
+    '#scuba diving': 9049,
 };
 
 class Hashtags extends React.Component {
     state = {
         suggestions: [],
         popularities: {},
-        value: '',
+        value: '#',
     };
 
     getSuggestions = (input) => {
@@ -47,9 +47,15 @@ class Hashtags extends React.Component {
         return { ...this.state.popularities, ...newPopularities };
     };
 
-    updateSuggestions = (event) => {
-        const value = event.target.value;
-        const suggestions = this.getSuggestions(value.trim());
+    handleUpdate = (event) => {
+        const { value } = event.target;
+        if (value.length < 1 || value.charAt(0) !== '#')
+            return;
+        this.updateSuggestions(value);
+    }
+
+    updateSuggestions = (value) => {
+        const suggestions = this.getSuggestions(this.trim(value));
         const popularities = this.getPopularities(suggestions);
         this.setState({
             suggestions,
@@ -58,13 +64,19 @@ class Hashtags extends React.Component {
         });
     };
 
+    trim = (value) => {
+        const raw = value.substring(1);
+        const trimmed = raw.trim();
+        return `#${trimmed}`;
+    };
+
     getItemAlreadyExists = (title) => {
         const titleEquals = (selectedItem) => selectedItem.title === title;
         return this.props.data.hashtags.some(titleEquals);
     };
 
     getItemIsInvalid = (title) => {
-        if (!title) {
+        if (title.length < 2) {
             return true;
         }
         if (this.getItemAlreadyExists(title)) {
@@ -74,7 +86,7 @@ class Hashtags extends React.Component {
     };
 
     clearValue = () => {
-        this.setState({ value: '' });
+        this.setState({ value: '#' });
     }
 
     handleSelectItem = (title) => {
@@ -92,12 +104,12 @@ class Hashtags extends React.Component {
     };
 
     handleSelectSuggestion = ({ suggestion }) => {
-        this.handleSelectItem(suggestion.trim());
+        this.handleSelectItem(this.trim(suggestion));
     };
 
     handleEnterKey = (event) => {
         event.preventDefault();
-        this.handleSelectItem(this.state.value.trim());
+        this.handleSelectItem(this.trim(this.state.value));
     };
 
     routeToMatches = () => {
@@ -111,15 +123,15 @@ class Hashtags extends React.Component {
                     <FormField>
                         <TextInput
                             placeHolder="Type the things you like..."
-                            onDOMChange={this.updateSuggestions}
+                            onDOMChange={this.handleUpdate}
                             onSelect={this.handleSelectSuggestion}
                             suggestions={this.state.suggestions}
                             value={this.state.value}
                         />
                     </FormField>
                 </FormFields>
-
                 <SelectedHashtags />
+
             </Form>
         );
     }
