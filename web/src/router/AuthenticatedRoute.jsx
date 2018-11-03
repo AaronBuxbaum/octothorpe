@@ -1,11 +1,11 @@
 import React from 'react';
-import { filter } from 'lodash';
+import { pickBy } from 'lodash';
 import { Route } from 'react-router-dom';
 import { getToken } from '../storage/localStorage';
 import RedirectToLogin from './RedirectToLogin';
 import pages from './pages';
 
-const authenticationPages = filter(pages, ({ requiresAuth }) => requiresAuth);
+const authenticationPages = pickBy(pages, ({ requiresAuth }) => requiresAuth);
 
 const isUnauthenticated = (path) => {
     return !!authenticationPages[path] && !getToken();

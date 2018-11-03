@@ -1,6 +1,7 @@
 import React from 'react';
+import { compose } from 'recompose';
+import { withRouter } from 'react-router-dom';
 import LoginForm from 'grommet/components/LoginForm';
-import routeTo from '../../router/routeTo';
 import { REGISTER, MATCHES } from '../../router/pages';
 import { Mutation } from 'react-apollo';
 import { saveToken } from '../../storage/localStorage';
@@ -11,27 +12,29 @@ class Login extends React.Component {
         errors: [],
     };
 
-    handleFailure = (error) => {
+    handleFailure = (error) =>
         this.setState({
             errors: [error.message],
         });
-    }
 
-    clearErrors = () => {
+    clearErrors = () =>
         this.setState({
             errors: [],
         });
-    }
+
+    routeToNextPage = () =>
+        this.props.history.push(MATCHES.path);
 
     handleSuccess = (response) => {
         const key = Object.keys(response)[0];
         const token = response[key].token;
         this.clearErrors();
         saveToken(token);
-        routeTo(MATCHES);
+        this.routeToNextPage();
     }
 
-    isRegistrationPage = () => this.props.location.pathname.includes(REGISTER);
+    isRegistrationPage = () =>
+        this.props.location.pathname === REGISTER.path;
 
     getMutation = () =>
         this.isRegistrationPage() ? SIGN_UP : LOG_IN;
@@ -55,4 +58,8 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+const enhance = compose(
+    withRouter,
+);
+
+export default enhance(Login);

@@ -112,10 +112,6 @@ class Hashtags extends React.Component {
         this.handleSelectItem(this.trim(this.state.value));
     };
 
-    routeToMatches = () => {
-        window.location.assign('/matches');
-    };
-
     render() {
         return (
             <Form onSubmit={this.handleEnterKey}>
