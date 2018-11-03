@@ -10,21 +10,21 @@ import { ADD_HASHTAG, GET_HASHTAGS } from './queries';
 
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
-    '#things',
-    '#more things',
-    '#scuba diving',
+    'things',
+    'more things',
+    'scuba diving',
 ];
 const popularitiesMap = {
-    '#things': 1,
-    '#more things': 3,
-    '#scuba diving': 9049,
+    'things': 1,
+    'more things': 3,
+    'scuba diving': 9049,
 };
 
 class Hashtags extends React.Component {
     state = {
         suggestions: [],
         popularities: {},
-        value: '#',
+        value: '',
     };
 
     getSuggestions = (input) => {
@@ -49,25 +49,17 @@ class Hashtags extends React.Component {
 
     handleUpdate = (event) => {
         const { value } = event.target;
-        if (value.length < 1 || value.charAt(0) !== '#')
-            return;
         this.updateSuggestions(value);
     }
 
     updateSuggestions = (value) => {
-        const suggestions = this.getSuggestions(this.trim(value));
+        const suggestions = this.getSuggestions(value.trim());
         const popularities = this.getPopularities(suggestions);
         this.setState({
             suggestions,
             popularities,
             value,
         });
-    };
-
-    trim = (value) => {
-        const raw = value.substring(1);
-        const trimmed = raw.trim();
-        return `#${trimmed}`;
     };
 
     getItemAlreadyExists = (title) => {
@@ -86,7 +78,7 @@ class Hashtags extends React.Component {
     };
 
     clearValue = () => {
-        this.setState({ value: '#' });
+        this.setState({ value: '' });
     }
 
     handleSelectItem = (title) => {
@@ -104,12 +96,12 @@ class Hashtags extends React.Component {
     };
 
     handleSelectSuggestion = ({ suggestion }) => {
-        this.handleSelectItem(this.trim(suggestion));
+        this.handleSelectItem(suggestion.trim());
     };
 
     handleEnterKey = (event) => {
         event.preventDefault();
-        this.handleSelectItem(this.trim(this.state.value));
+        this.handleSelectItem(this.state.value.trim());
     };
 
     render() {
