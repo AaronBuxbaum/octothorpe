@@ -28,11 +28,3 @@ services:
      - 9222:9222
     volumes:
       - ./web/src:/app/src
-  # vue:
-  #   build: vue
-  #   ports:
-  #     - 8080:8080
-  #     - 9222:9222
-  #     - 9229:9229
-  # volumes:
-  #   - ./vue/src:/app/src
