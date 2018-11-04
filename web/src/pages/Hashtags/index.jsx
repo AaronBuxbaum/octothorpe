@@ -1,24 +1,11 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { take } from 'lodash';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import SelectedHashtags from './SelectedHashtags';
 import { ADD_HASHTAG, GET_HASHTAGS, GET_SUGGESTIONS } from './queries';
-
-const MAX_SUGGESTIONS = 5;
-const suggestions = [
-    'things',
-    'more things',
-    'scuba diving',
-];
-const popularitiesMap = {
-    'things': 1,
-    'more things': 3,
-    'scuba diving': 9049,
-};
 
 class Hashtags extends React.Component {
     state = {
@@ -55,9 +42,8 @@ class Hashtags extends React.Component {
         return false;
     };
 
-    clearValue = () => {
+    clearValue = () =>
         this.setState({ value: '' });
-    }
 
     handleSelectItem = (value) => {
         const title = this.trim(value);
@@ -75,9 +61,8 @@ class Hashtags extends React.Component {
         this.props.addHashtag({ variables: newItem })
     };
 
-    handleSelectSuggestion = ({ suggestion }) => {
+    handleSelectSuggestion = ({ suggestion }) =>
         this.handleSelectItem(suggestion);
-    };
 
     handleEnterKey = (event) => {
         event.preventDefault();

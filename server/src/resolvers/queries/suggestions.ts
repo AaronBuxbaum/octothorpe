@@ -1,6 +1,8 @@
 import { sortedIndex } from 'lodash';
 import hashtagModel from '../../models/hashtagModel';
 
+const MAX_SUGGESTIONS = 5;
+
 // this is just a really dumb autocomplete solution for now
 let suggestionNames = [];
 (async () => {
@@ -12,7 +14,7 @@ let suggestionNames = [];
 
 const suggestions = (root, { title }) => {
     const index = sortedIndex(suggestionNames, title);
-    const returnValue = suggestionNames.slice(index, index + 5);
+    const returnValue = suggestionNames.slice(index, index + MAX_SUGGESTIONS);
     if (returnValue[0] !== title) {
         returnValue.unshift(title);
         returnValue.pop();
