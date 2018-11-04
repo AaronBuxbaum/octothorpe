@@ -22,34 +22,15 @@ const popularitiesMap = {
 
 class Hashtags extends React.Component {
     state = {
-        suggestions: [],
-        popularities: {},
         value: '',
     };
 
-    getSuggestions = (input) => {
-        const startsWithInput = (suggestion) => suggestion.startsWith(input);
-        let relevantSuggestions = suggestions.filter(startsWithInput);
-        if (relevantSuggestions[0] !== input)
-            relevantSuggestions.unshift(input);
-        return take(relevantSuggestions, MAX_SUGGESTIONS);
-    };
-
-    getPopularities = (items) => {
-        const newPopularities = {};
-
-        items.forEach((item) => {
-            if (!this.state.popularities[item]) {
-                newPopularities[item] = popularitiesMap[item] || 1;
-            }
-        });
-
-        return { ...this.state.popularities, ...newPopularities };
-    };
+    trim = (input) =>
+        input.replace(/\W/g, '');
 
     handleUpdate = (event) => {
         const { value } = event.target;
-        this.updateSuggestions(value.trim());
+        this.updateSuggestions(this.trim(value));
     }
 
     updateSuggestions = (value) => {
@@ -78,7 +59,9 @@ class Hashtags extends React.Component {
         this.setState({ value: '' });
     }
 
-    handleSelectItem = (title) => {
+    handleSelectItem = (value) => {
+        const title = this.trim(value);
+
         if (this.getItemIsInvalid(title)) {
             return;
         }
@@ -93,12 +76,12 @@ class Hashtags extends React.Component {
     };
 
     handleSelectSuggestion = ({ suggestion }) => {
-        this.handleSelectItem(suggestion.trim());
+        this.handleSelectItem(suggestion);
     };
 
     handleEnterKey = (event) => {
         event.preventDefault();
-        this.handleSelectItem(this.state.value.trim());
+        this.handleSelectItem(this.state.value);
     };
 
     render() {
