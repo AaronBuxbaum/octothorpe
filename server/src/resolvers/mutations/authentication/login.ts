@@ -20,7 +20,7 @@ const login = async (root, { userInfo }) => {
 
     const token = sign({ userId: user.id }, APP_SECRET);
 
-    const publicUserData = pick(userInfo, ['username', 'profileImage']);
+    const publicUserData = pick(user, ['username', 'profileImage']);
     return { token, ...publicUserData };
 };
 

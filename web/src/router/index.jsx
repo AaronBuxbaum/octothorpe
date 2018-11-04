@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Header from '../header/Header';
+import Header from '../pages/Header';
 import pages from './pages';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import PageNotFound from '../pages/PageNotFound';
