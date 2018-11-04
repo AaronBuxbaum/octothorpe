@@ -5,6 +5,7 @@ const Query = gql`
         hashtag(id: String): Hashtag
         hashtags: [Hashtag]
         matches: [Match]
+        suggestions(title: String): [String]
         user: User
     }
 `;

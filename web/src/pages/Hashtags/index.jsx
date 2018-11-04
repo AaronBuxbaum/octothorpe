@@ -6,7 +6,7 @@ import FormFields from 'grommet/components/FormFields';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import SelectedHashtags from './SelectedHashtags';
-import { ADD_HASHTAG, GET_HASHTAGS } from './queries';
+import { ADD_HASHTAG, GET_HASHTAGS, GET_SUGGESTIONS } from './queries';
 
 const MAX_SUGGESTIONS = 5;
 const suggestions = [
@@ -53,11 +53,8 @@ class Hashtags extends React.Component {
     }
 
     updateSuggestions = (value) => {
-        const suggestions = this.getSuggestions(value);
-        const popularities = this.getPopularities(suggestions);
+        this.props.getSuggestions.refetch({ title: value });
         this.setState({
-            suggestions,
-            popularities,
             value,
         });
     };
@@ -89,7 +86,7 @@ class Hashtags extends React.Component {
         this.clearValue();
 
         const newItem = {
-            popularity: this.state.popularities[title],
+            popularity: 1,
             title,
         };
         this.props.addHashtag({ variables: newItem })
@@ -113,20 +110,22 @@ class Hashtags extends React.Component {
                             placeHolder="Type the things you like..."
                             onDOMChange={this.handleUpdate}
                             onSelect={this.handleSelectSuggestion}
-                            suggestions={this.state.suggestions}
+                            suggestions={this.props.getSuggestions.suggestions}
                             value={this.state.value}
                         />
                     </FormField>
                 </FormFields>
                 <SelectedHashtags />
-
-            </Form>
+            </Form >
         );
     }
 }
 
 const enhance = compose(
     graphql(GET_HASHTAGS),
+    graphql(GET_SUGGESTIONS, {
+        name: 'getSuggestions',
+    }),
     graphql(ADD_HASHTAG, {
         name: 'addHashtag',
         options: {
