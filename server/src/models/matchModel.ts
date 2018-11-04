@@ -4,6 +4,7 @@ const matchSchema = new Schema({
     username: String!,
     firstName: String!,
     lastName: String,
+    image: String,
     rating: Number,
 });
 

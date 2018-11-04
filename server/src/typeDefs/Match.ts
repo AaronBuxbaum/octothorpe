@@ -6,6 +6,7 @@ const Match = gql`
         lastName: String
         rating: Float
         username: String
+        image: String
     }
 `;
 

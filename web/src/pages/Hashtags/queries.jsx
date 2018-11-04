@@ -9,12 +9,6 @@ export const GET_HASHTAGS = gql`
   }
 `;
 
-export const GET_SUGGESTIONS = gql`
-  query GetSuggestions($title: String) {
-    suggestions(title: $title)
-  }
-`;
-
 export const ADD_HASHTAG = gql`
   mutation AddHashtag($title: String!) {
     addHashtag(title: $title) {
@@ -28,5 +22,11 @@ export const DELETE_HASHTAG = gql`
     deleteHashtag(id: $id) {
       id
     }
+  }
+`;
+
+export const GET_SUGGESTIONS = gql`
+  query GetSuggestions($title: String) {
+    suggestions(title: $title)
   }
 `;
