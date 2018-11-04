@@ -1,4 +1,4 @@
-import matchModel from '../../models/matchModel';
+import userModel from '../../models/userModel';
 
 const exampleMatches = [
     {
@@ -6,23 +6,26 @@ const exampleMatches = [
         firstName: 'Aaron',
         lastName: 'Buxbaum',
         rating: 0.83,
-        image: 'http://placekitten.com/g/400/400'
+        image: 'http://placekitten.com/g/300/300'
     },
     {
         username: 'john',
         firstName: 'John',
         rating: 0.91,
-        image: 'http://placekitten.com/g/401/401'
+        image: 'http://placekitten.com/g/301/301'
     },
     {
         username: 'elon',
         firstName: 'Elon',
         lastName: 'Musk',
         rating: 0.01,
-        image: 'http://placekitten.com/g/402/402'
+        image: 'http://placekitten.com/g/302/302'
     }
 ];
 
-const matches = () => exampleMatches; // matchModel.find({}) || 
+const matches = () => {
+    return exampleMatches;
+    // return userModel.find({}).limit(10);
+};
 
 export default matches;

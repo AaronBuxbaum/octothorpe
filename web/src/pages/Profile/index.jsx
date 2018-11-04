@@ -1,4 +1,7 @@
 import React from 'react';
+import { branch, renderNothing } from 'recompose';
+import { compose, graphql } from 'react-apollo';
+import { GET_PROFILE, UPDATE_PROFILE } from './queries.jsx';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
 import FormField from 'grommet/components/FormField';
@@ -13,54 +16,60 @@ class Profile extends React.Component {
         errors: [],
     };
 
-    handleUpdateFailure = (error) => {
+    handleUpdateFailure = (error) =>
         this.setState({
             errors: [error.message],
         });
-    }
 
-    clearErrors = () => {
+    clearErrors = () =>
         this.setState({
             errors: [],
         });
-    }
 
-    handleUpdateSuccess = () => {
+    handleUpdateSuccess = () =>
         this.clearErrors();
-    }
 
-    onSubmit = (event) => {
+    onSubmit = async (event) => {
         event.preventDefault();
-        const displayName = event.target.name.value;
-        const photoURL = event.target.photoURL.value;
-        const { birthdate } = this.state;
-        this.props.firebase.updateProfile({ displayName, photoURL, birthdate })
-            .then(this.handleUpdateSuccess)
-            .catch(this.handleUpdateFailure)
-            .finally(() => {
-                this.setState({
-                    isLoading: false,
-                });
-            });
+        // const { birthdate } = this.state;
+        const variables = {
+            userInfo: {
+                firstName: event.target.firstName.value,
+                lastName: event.target.lastName.value,
+                // profileImage: event.target.photoURL.value,
+            }
+        };
+        this.props.updateProfile({ variables });
     }
 
-    updateBirthdate = (input) => {
+    updateFirstName = (input) =>
+        this.setState({
+            firstName: input,
+        });
+
+    updateBirthdate = (input) =>
         this.setState({
             birthdate: input,
         });
-    }
 
     render() {
+        const { firstName, lastName } = this.props.data.user;
         return (
             <Form onSubmit={this.onSubmit}>
                 <FormFields>
-                    <FormField label="Full Name">
+                    <FormField label="First Name">
                         <TextInput
-                            name="name"
-                            placeHolder={this.props.displayName}
+                            name="firstName"
+                            defaultValue={firstName}
                         />
                     </FormField>
-                    <FormField label="Photo URL">
+                    <FormField label="Last Name">
+                        <TextInput
+                            name="lastName"
+                            defaultValue={lastName}
+                        />
+                    </FormField>
+                    {/* <FormField label="Photo URL">
                         <TextInput
                             name="photoURL"
                             type="url"
@@ -75,7 +84,7 @@ class Profile extends React.Component {
                             onChange={this.updateBirthdate}
                             value={this.state.birthdate}
                         />
-                    </FormField>
+                    </FormField> */}
                 </FormFields>
                 <Footer pad={{ "vertical": "medium" }}>
                     <Button
@@ -89,4 +98,12 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+const isLoading = ({ data }) => data.loading;
+
+const enhance = compose(
+    graphql(GET_PROFILE),
+    branch(isLoading, renderNothing),
+    graphql(UPDATE_PROFILE, { name: 'updateProfile' }),
+);
+
+export default enhance(Profile);

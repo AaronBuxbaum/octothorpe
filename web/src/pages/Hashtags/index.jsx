@@ -91,9 +91,7 @@ class Hashtags extends React.Component {
 
 const enhance = compose(
     graphql(GET_HASHTAGS),
-    graphql(GET_SUGGESTIONS, {
-        name: 'getSuggestions',
-    }),
+    graphql(GET_SUGGESTIONS, { name: 'getSuggestions' }),
     graphql(ADD_HASHTAG, {
         name: 'addHashtag',
         options: {

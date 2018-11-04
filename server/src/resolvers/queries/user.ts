@@ -1,10 +1,9 @@
+import userModel from "../../models/userModel";
+
 const user = (root, args, context) => {
-    // console.log(context);
-    if (!context.user) return null;
-    return {
-        username: 'aaron',
-        profileImage: 'http://placekitten.com/g/200/200',
-    };
+    const { user } = context;
+    if (!user) return null;
+    return userModel.findById(user);
 }
 
 export default user;
