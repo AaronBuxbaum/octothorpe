@@ -5,6 +5,7 @@ export const GET_PROFILE = gql`
     user {
       firstName
       lastName
+      image
     }
   }
 `;
@@ -14,6 +15,7 @@ export const UPDATE_PROFILE = gql`
     updateProfile(userInfo: $userInfo) {
       firstName
       lastName
+      image
     }
   }
 `;

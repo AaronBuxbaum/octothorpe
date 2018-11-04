@@ -7,7 +7,7 @@ import './header.scss';
 import { PROFILE } from '../../router/pages';
 import { LOGGED_IN_USER } from './queries';
 
-const getProfileImage = (data) => get(data, 'user.profileImage');
+const getProfileImage = (data) => get(data, 'user.image');
 
 const hasNoAvatar = ({ data }) => !getProfileImage(data);
 

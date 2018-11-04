@@ -4,7 +4,7 @@ const LOG_IN = gql`
   mutation Login($userInfo: UserAuthentication!) {
     login(userInfo: $userInfo) {
       token
-      profileImage
+      image
       username
     }
   }
@@ -14,7 +14,7 @@ const SIGN_UP = gql`
   mutation Signup($userInfo: UserAuthentication!) {
     signup(userInfo: $userInfo) {
       token
-      profileImage
+      image
       username
     }
   }

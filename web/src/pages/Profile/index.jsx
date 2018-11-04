@@ -6,7 +6,7 @@ import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
-import DateTime from 'grommet/components/DateTime';
+// import DateTime from 'grommet/components/DateTime';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
@@ -31,21 +31,15 @@ class Profile extends React.Component {
 
     onSubmit = async (event) => {
         event.preventDefault();
-        // const { birthdate } = this.state;
         const variables = {
             userInfo: {
                 firstName: event.target.firstName.value,
                 lastName: event.target.lastName.value,
-                // profileImage: event.target.photoURL.value,
+                image: event.target.image.value,
             }
         };
         this.props.updateProfile({ variables });
     }
-
-    updateFirstName = (input) =>
-        this.setState({
-            firstName: input,
-        });
 
     updateBirthdate = (input) =>
         this.setState({
@@ -53,7 +47,7 @@ class Profile extends React.Component {
         });
 
     render() {
-        const { firstName, lastName } = this.props.data.user;
+        const { firstName, lastName, image } = this.props.data.user;
         return (
             <Form onSubmit={this.onSubmit}>
                 <FormFields>
@@ -69,17 +63,18 @@ class Profile extends React.Component {
                             defaultValue={lastName}
                         />
                     </FormField>
-                    {/* <FormField label="Photo URL">
+                    <FormField label="Profile Image">
                         <TextInput
-                            name="photoURL"
+                            name="image"
                             type="url"
-                            placeHolder={this.props.photoURL}
+                            defaultValue={image}
                         />
                     </FormField>
-                    <FormField label="Birth Date">
+                    {/* <FormField label="Birth Date">
                         <DateTime
                             name="birthdate"
                             format="M/D/YYYY"
+                            defaultValue={birthdate}
                             placeholder={this.props.birthdate}
                             onChange={this.updateBirthdate}
                             value={this.state.birthdate}
@@ -103,7 +98,19 @@ const isLoading = ({ data }) => data.loading;
 const enhance = compose(
     graphql(GET_PROFILE),
     branch(isLoading, renderNothing),
-    graphql(UPDATE_PROFILE, { name: 'updateProfile' }),
+    graphql(UPDATE_PROFILE, {
+        name: 'updateProfile',
+        options: {
+            update: (cache, { data }) => {
+                const key = Object.keys(data)[0];
+                const user = data[key];
+                cache.writeQuery({
+                    query: GET_PROFILE,
+                    data: { user }
+                });
+            },
+        }
+    }),
 );
 
 export default enhance(Profile);
