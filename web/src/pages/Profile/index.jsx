@@ -9,6 +9,7 @@ import TextInput from 'grommet/components/TextInput';
 // import DateTime from 'grommet/components/DateTime';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
+import Toast from 'grommet/components/Toast';
 
 class Profile extends React.Component {
     state = {
@@ -39,6 +40,18 @@ class Profile extends React.Component {
             }
         };
         this.props.updateProfile({ variables });
+
+        if (!this.toastTimeout) {
+            this.setState({
+                showToast: true,
+            });
+            this.toastTimeout = setTimeout(() => {
+                this.setState({
+                    showToast: false,
+                });
+                delete this.toastTimeout;
+            }, 10000);
+        }
     }
 
     updateBirthdate = (input) =>
@@ -48,29 +61,39 @@ class Profile extends React.Component {
 
     render() {
         const { firstName, lastName, image } = this.props.data.user;
+        const { showToast } = this.state;
+
         return (
-            <Form onSubmit={this.onSubmit}>
-                <FormFields>
-                    <FormField label="First Name">
-                        <TextInput
-                            name="firstName"
-                            defaultValue={firstName}
-                        />
-                    </FormField>
-                    <FormField label="Last Name">
-                        <TextInput
-                            name="lastName"
-                            defaultValue={lastName}
-                        />
-                    </FormField>
-                    <FormField label="Profile Image">
-                        <TextInput
-                            name="image"
-                            type="url"
-                            defaultValue={image}
-                        />
-                    </FormField>
-                    {/* <FormField label="Birth Date">
+            <>
+                {
+                    showToast &&
+                    <Toast status='ok'>
+                        Changes saved successfully.
+                    </Toast>
+                }
+
+                <Form onSubmit={this.onSubmit}>
+                    <FormFields>
+                        <FormField label="First Name">
+                            <TextInput
+                                name="firstName"
+                                defaultValue={firstName}
+                            />
+                        </FormField>
+                        <FormField label="Last Name">
+                            <TextInput
+                                name="lastName"
+                                defaultValue={lastName}
+                            />
+                        </FormField>
+                        <FormField label="Profile Image">
+                            <TextInput
+                                name="image"
+                                type="url"
+                                defaultValue={image}
+                            />
+                        </FormField>
+                        {/* <FormField label="Birth Date">
                         <DateTime
                             name="birthdate"
                             format="M/D/YYYY"
@@ -80,15 +103,16 @@ class Profile extends React.Component {
                             value={this.state.birthdate}
                         />
                     </FormField> */}
-                </FormFields>
-                <Footer pad={{ "vertical": "medium" }}>
-                    <Button
-                        label='Submit'
-                        type='submit'
-                        primary={true}
-                    />
-                </Footer>
-            </Form>
+                    </FormFields>
+                    <Footer pad={{ "vertical": "medium" }}>
+                        <Button
+                            label='Submit'
+                            type='submit'
+                            primary={true}
+                        />
+                    </Footer>
+                </Form>
+            </>
         );
     }
 }
