@@ -1,11 +1,11 @@
 import { hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import userModel from '../../../models/userModel';
-import { APP_SECRET } from './constants';
+import { APP_SECRET, HASH_SALT } from './constants';
 
 const createUser = async (userInfo) => {
     const { username } = userInfo;
-    const password = await hash(userInfo.password, 10);
+    const password = await hash(userInfo.password, HASH_SALT);
     const user = {
         username,
         password,

@@ -1,5 +1,4 @@
 import { compare } from 'bcryptjs';
-import { pick } from 'lodash';
 import { sign } from 'jsonwebtoken';
 import userModel from '../../../models/userModel';
 import { APP_SECRET } from './constants';
@@ -20,8 +19,13 @@ const login = async (root, { userInfo }) => {
 
     const token = sign({ userId: user.id }, APP_SECRET);
 
-    const publicUserData = pick(user, ['username', 'image']);
-    return { token, ...publicUserData };
+    const { firstName, image, lastName } = user;
+    return {
+        firstName,
+        image,
+        lastName,
+        token,
+    };
 };
 
 export default login;

@@ -5,7 +5,8 @@ const LOG_IN = gql`
     login(userInfo: $userInfo) {
       token
       image
-      username
+      firstName
+      lastName
     }
   }
 `;
@@ -15,7 +16,8 @@ const SIGN_UP = gql`
     signup(userInfo: $userInfo) {
       token
       image
-      username
+      firstName
+      lastName
     }
   }
 `;

@@ -11,7 +11,7 @@ const createAnchorLink = ({ path, title, onClick }) => (
     <Anchor href={path} label={title} onClick={onClick} key={title} />
 );
 
-const isLoggedIn = (data) => !!get(data, 'user.username');
+const isLoggedIn = (data) => !!get(data, 'user');
 
 const getLinks = (data) => {
     const links = isLoggedIn(data) ? authLinks : noAuthLinks;
