@@ -27,20 +27,7 @@ class Profile extends React.Component {
             errors: [],
         });
 
-    handleUpdateSuccess = () =>
-        this.clearErrors();
-
-    onSubmit = async (event) => {
-        event.preventDefault();
-        const variables = {
-            userInfo: {
-                firstName: event.target.firstName.value,
-                lastName: event.target.lastName.value,
-                image: event.target.image.value,
-            }
-        };
-        this.props.updateProfile({ variables });
-
+    openSuccessModal = () => {
         if (!this.toastTimeout) {
             this.setState({
                 showToast: true,
@@ -52,6 +39,23 @@ class Profile extends React.Component {
                 delete this.toastTimeout;
             }, 10000);
         }
+    };
+
+    handleUpdateSuccess = () => {
+        this.clearErrors();
+        this.openSuccessModal();
+    };
+
+    onSubmit = async (event) => {
+        event.preventDefault();
+        const variables = {
+            userInfo: {
+                firstName: event.target.firstName.value,
+                lastName: event.target.lastName.value,
+                image: event.target.image.value,
+            }
+        };
+        this.props.updateProfile({ variables });
     }
 
     updateBirthdate = (input) =>
@@ -133,7 +137,10 @@ const enhance = compose(
                     data: { user }
                 });
             },
-        }
+            // onCompleted
+            // onError:    
+        },
+        // withRef: true,
     }),
 );
 
