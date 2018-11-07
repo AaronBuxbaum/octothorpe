@@ -1,9 +1,17 @@
-import ApolloClient from 'apollo-boost';
-import request from './request';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloLink } from 'apollo-link';
+import onError from './onError';
+import httpLink from './httpLink';
 
-const uri = 'http://localhost:4000';
+const buildLinks = () => ApolloLink.from([
+  onError,
+  httpLink,
+]);
 
-export default new ApolloClient({
-  uri,
-  request,
+const client = new ApolloClient({
+  link: buildLinks(),
+  cache: new InMemoryCache()
 });
+
+export default client;

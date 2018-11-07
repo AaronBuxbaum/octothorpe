@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles.scss';
 import { branch, renderNothing } from 'recompose';
 import { compose, graphql } from 'react-apollo';
 import { GET_PROFILE, UPDATE_PROFILE } from './queries.jsx';
@@ -10,11 +11,16 @@ import TextInput from 'grommet/components/TextInput';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 import Toast from 'grommet/components/Toast';
+import Dropzone from 'react-dropzone';
+
+
+const MEGABYTE_IN_BYTES = 1E6;
 
 class Profile extends React.Component {
     state = {
         birthdate: '',
         errors: [],
+        // image: this.props.data.user.image,
     };
 
     handleUpdateFailure = (error) =>
@@ -46,16 +52,41 @@ class Profile extends React.Component {
         this.openSuccessModal();
     };
 
+    getUserInfo = (target, attributes) => attributes.reduce(
+        (acc, key) => {
+            acc[key] = target[key].value;
+            return acc;
+        }, {});
+
     onSubmit = async (event) => {
         event.preventDefault();
-        const variables = {
-            userInfo: {
-                firstName: event.target.firstName.value,
-                lastName: event.target.lastName.value,
-                image: event.target.image.value,
-            }
-        };
+        const userInfo = this.getUserInfo(event.target, ['firstName', 'lastName']);
+        const variables = { userInfo };
+        // variables.userInfo.image = this.state.image;
+        // variables.userInfo.image = await fetch(this.state.image).then((response) => response.blob());
+        // console.log(variables.userInfo.image);
         this.props.updateProfile({ variables });
+    }
+
+    onSelectImage = (file) => {
+        if (file.length) {
+            this.setState({
+                image: file[0]
+            });
+        }
+    }
+
+    buildProfileImageBackground = () => {
+        if (this.state.image) {
+            return {
+                backgroundImage: `url(${URL.createObjectURL(this.state.image)})`,
+            };
+        }
+        return {};
+    };
+
+    componentWillUnmount() {
+        URL.revokeObjectURL(this.state.image);
     }
 
     updateBirthdate = (input) =>
@@ -64,7 +95,7 @@ class Profile extends React.Component {
         });
 
     render() {
-        const { firstName, lastName, image } = this.props.data.user;
+        const { firstName, lastName } = this.props.data.user;
         const { showToast } = this.state;
 
         return (
@@ -77,27 +108,28 @@ class Profile extends React.Component {
                 }
 
                 <Form onSubmit={this.onSubmit}>
-                    <FormFields>
-                        <FormField label="First Name">
-                            <TextInput
-                                name="firstName"
-                                defaultValue={firstName}
-                            />
-                        </FormField>
-                        <FormField label="Last Name">
-                            <TextInput
-                                name="lastName"
-                                defaultValue={lastName}
-                            />
-                        </FormField>
-                        <FormField label="Profile Image">
-                            <TextInput
-                                name="image"
-                                type="url"
-                                defaultValue={image}
-                            />
-                        </FormField>
-                        {/* <FormField label="Birth Date">
+                    <FormFields style={{ display: 'flex' }}>
+                        <div style={{ marginRight: '30px' }}>
+                            <FormField label="First Name">
+                                <TextInput
+                                    name="firstName"
+                                    defaultValue={firstName}
+                                />
+                            </FormField>
+                            <FormField label="Last Name">
+                                <TextInput
+                                    name="lastName"
+                                    defaultValue={lastName}
+                                />
+                            </FormField>
+                            {/* <FormField label="Profile Image">
+                                <TextInput
+                                    name="image"
+                                    type="url"
+                                    defaultValue={image}
+                                />
+                            </FormField> */}
+                            {/* <FormField label="Birth Date">
                         <DateTime
                             name="birthdate"
                             format="M/D/YYYY"
@@ -107,6 +139,21 @@ class Profile extends React.Component {
                             value={this.state.birthdate}
                         />
                     </FormField> */}
+                        </div>
+                        <Dropzone
+                            accept="image/*"
+                            maxSize={4 * MEGABYTE_IN_BYTES}
+                            multiple={false}
+                            onDrop={this.onSelectImage}
+                            className="image-drop-zone"
+                        >
+                            <div
+                                style={this.buildProfileImageBackground()}
+                                className="image-drop-content"
+                            >
+                                Upload your profile image
+                            </div>
+                        </Dropzone>
                     </FormFields>
                     <Footer pad={{ "vertical": "medium" }}>
                         <Button
