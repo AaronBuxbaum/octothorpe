@@ -11,8 +11,8 @@ export const GET_PROFILE = gql`
 `;
 
 export const UPDATE_PROFILE = gql`
-  mutation UpdateProfile($userInfo: UserProfileInput!) {
-    updateProfile(userInfo: $userInfo) {
+  mutation UpdateProfile($userInfo: UserProfileInput!, $image: Upload!) {
+    updateProfile(userInfo: $userInfo, image: $image) {
       firstName
       lastName
       image

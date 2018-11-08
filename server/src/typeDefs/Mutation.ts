@@ -6,7 +6,7 @@ const Mutation = gql`
         deleteHashtag(id: ID!): Hashtag
         signup(userInfo: UserAuthentication!): User
         login(userInfo: UserAuthentication!): User
-        updateProfile(userInfo: UserProfileInput!): User
+        updateProfile(userInfo: UserProfileInput!, image: Upload!): User
     }
 `;
 

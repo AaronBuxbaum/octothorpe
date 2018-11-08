@@ -1,16 +1,18 @@
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
-import onError from './onError';
-import httpLink from './httpLink';
+import requestLink from './requestLink';
+import errorLink from './errorLink';
+import uploadLink from './uploadLink';
 
-const buildLinks = () => ApolloLink.from([
-  onError,
-  httpLink,
+const link = ApolloLink.from([
+  errorLink,
+  requestLink,
+  uploadLink,
 ]);
 
 const client = new ApolloClient({
-  link: buildLinks(),
+  link,
   cache: new InMemoryCache()
 });
 

@@ -4,7 +4,6 @@ const UserProfileInput = gql`
     input UserProfileInput {
         firstName: String
         lastName: String
-        image: String
     }
 `;
 

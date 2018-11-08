@@ -61,10 +61,7 @@ class Profile extends React.Component {
     onSubmit = async (event) => {
         event.preventDefault();
         const userInfo = this.getUserInfo(event.target, ['firstName', 'lastName']);
-        const variables = { userInfo };
-        // variables.userInfo.image = this.state.image;
-        // variables.userInfo.image = await fetch(this.state.image).then((response) => response.blob());
-        // console.log(variables.userInfo.image);
+        const variables = { userInfo, image: this.state.image };
         this.props.updateProfile({ variables });
     }
 

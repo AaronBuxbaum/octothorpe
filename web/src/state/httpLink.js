@@ -1,5 +1,4 @@
 import { HttpLink } from 'apollo-link-http';
-import request from './request';
 
 const uri = 'http://localhost:4000';
 
