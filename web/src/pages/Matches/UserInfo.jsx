@@ -1,8 +1,7 @@
 import React from 'react';
+import { compose, mapProps } from 'recompose';
 import round from 'lodash';
-import './UserInfo.scss';
-
-const formatRating = (rating) => `${round(rating * 100)}% match`;
+import './styles.scss';
 
 const UserInfo = ({
     firstName,
@@ -14,9 +13,15 @@ const UserInfo = ({
                 {firstName} {lastName}
             </div>
             <div className="rating">
-                {formatRating(rating)}
+                {rating}
             </div>
         </div>
     );
 
-export default UserInfo;
+const formatRating = (rating) => `${round(rating * 100)}% match`;
+
+const enhance = compose(
+    mapProps((props) => ({ ...props, rating: formatRating(props.rating) })),
+);
+
+export default enhance(UserInfo);

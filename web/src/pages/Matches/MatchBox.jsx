@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import UserImage from './UserImage';
 import UserInfo from './UserInfo';
-import './MatchBox.scss';
+import './styles.scss';
 
 const MatchBox = ({ firstName, lastName, image, rating }) => (
     <Link to="/TODO" style={{ textDecoration: 'none' }}>

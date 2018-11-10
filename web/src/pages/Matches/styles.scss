@@ -1,0 +1,30 @@
+.matchbox {
+    border: 1px solid lightgray;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: row;
+    margin-right: 20px;
+}
+
+.profile-image {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    height: 150px;
+    object-fit: cover;
+    width: 150px;
+}
+
+.user-info {
+    display: inline-block;
+    margin: 12px;
+    width: 150px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.rating {
+
+}
