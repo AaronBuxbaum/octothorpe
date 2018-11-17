@@ -1,0 +1,15 @@
+language: typescript
+schema: ../src/typeDefs
+context: ../src/types.ts:Context
+models:
+  files:
+    - ./generated/prisma-client
+
+# Generated typings for resolvers and default resolver implementations
+# Please don't edit this file but just import from here
+output: ./generated/graphqlgen.ts
+
+# Temporary scaffolded resolvers to copy and paste in your application
+resolver-scaffolding:
+  output: ./generated/tmp-resolvers/
+  layout: file-per-type
