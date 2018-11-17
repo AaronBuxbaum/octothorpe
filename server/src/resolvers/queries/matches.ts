@@ -1,5 +1,3 @@
-import userModel from '../../models/userModel';
-
 const exampleMatches = [
     {
         username: 'aaron',
@@ -23,9 +21,9 @@ const exampleMatches = [
     }
 ];
 
-const matches = () => {
-    return exampleMatches;
-    // return userModel.find({}).limit(10);
+const matches = (root, args, context) => {
+    const { dataSources, user } = context;
+    return dataSources.matchesAPI.getMatches(user);
 };
 
 export default matches;

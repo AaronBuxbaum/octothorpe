@@ -7,6 +7,7 @@ const Query = gql`
         matches: [Match]
         suggestions(title: String): [String]
         user: User
+        users: [User]
     }
 `;
 

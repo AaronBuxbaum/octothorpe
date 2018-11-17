@@ -3,6 +3,7 @@ import hashtags from './hashtags';
 import matches from './matches';
 import suggestions from './suggestions';
 import user from './user';
+import users from './users';
 
 const queries = {
   hashtag,
@@ -10,6 +11,7 @@ const queries = {
   matches,
   suggestions,
   user,
+  users,
 };
 
 export default queries;

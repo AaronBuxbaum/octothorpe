@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import hashtagModel from './hashtagModel';
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true, index: true },
@@ -6,6 +7,7 @@ const userSchema = new Schema({
   firstName: String,
   lastName: String,
   image: String,
+  hashtags: [{ type: Schema.Types.ObjectId, ref: hashtagModel }]
 });
 
 const userModel = model('user', userSchema);

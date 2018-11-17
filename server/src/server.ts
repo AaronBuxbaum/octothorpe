@@ -3,10 +3,14 @@ import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import context from './context';
 import './database';
+import MatchesAPI from './models/MatchesAPI';
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  dataSources: () => ({
+    matchesAPI: new MatchesAPI(),
+  }),
   context,
 });
 
