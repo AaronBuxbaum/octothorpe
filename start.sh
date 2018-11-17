@@ -1,0 +1,1 @@
+docker-compose up -f docker-compose.yml -f prisma/docker-compose.yml
