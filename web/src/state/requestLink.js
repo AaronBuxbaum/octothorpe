@@ -13,10 +13,10 @@ const request = async (operation) => {
 };
 
 const requestLink = new ApolloLink((operation, forward) =>
-  new Observable(observer => {
+  new Observable((observer) => {
     let handle;
     Promise.resolve(operation)
-      .then(oper => request(oper))
+      .then((oper) => request(oper))
       .then(() => {
         handle = forward(operation).subscribe({
           next: observer.next.bind(observer),

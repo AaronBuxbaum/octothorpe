@@ -22,8 +22,8 @@ const exampleMatches = [
 ];
 
 const matches = (root, args, context) => {
-    const { dataSources, user } = context;
-    return dataSources.matchesAPI.getMatches(user);
+    const { dataSources } = context;
+    return dataSources.matchesAPI.getMatches();
 };
 
 export default matches;

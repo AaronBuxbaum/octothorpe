@@ -1,9 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
-import sys
-# from database import database
-from sklearn import datasets
+# from sklearn import datasets
 
 app = Flask(__name__)
 WEB_URL = "http://localhost:3000"
@@ -13,7 +11,6 @@ cors = CORS(app, resources={r"/*": {"origins": [GRAPHQL_URL, WEB_URL]}})
 
 @app.route("/matches")
 def find_matches():
-    userId = request.args.get("userId")
     query = """
         query {
             user {
@@ -34,10 +31,15 @@ def find_matches():
             }
         }
     """
-    request = requests.get(GRAPHQL_URL, {"query": query})
-    # my_hashtags = request.json()["data"]["user"]["hashtags"]
-    users = request.json()["data"]["users"]
-    return jsonify(users)
+    r = requests.get(
+        GRAPHQL_URL,
+        params={"query": query},
+        headers=request.headers
+    )
+    my_hashtags = r.json()["data"]["user"]["hashtags"]
+    app.logger.info(my_hashtags)
+    matches = r.json()["data"]["users"]
+    return jsonify(matches)
 
 
 if __name__ == "__main__":

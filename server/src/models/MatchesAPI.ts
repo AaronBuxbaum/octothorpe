@@ -1,4 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
+// import getUsername from '../utils/getUsername';
 
 class MatchesAPI extends RESTDataSource {
     constructor() {
@@ -6,8 +7,12 @@ class MatchesAPI extends RESTDataSource {
         this.baseURL = 'http://flask:5000';
     }
 
-    async getMatches(userId) {
-        return this.get('matches', { userId });
+    willSendRequest(request) {
+        request.headers.set('Authorization', this.context.Authorization);
+    }
+
+    async getMatches() {
+        return this.get('matches');
     }
 }
 

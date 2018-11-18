@@ -1,8 +1,7 @@
-import getUsername from '../utils/getUsername';
+import getAuthorization from '../utils/getAuthorization';
 
-const context = (context) => {
-    const user = getUsername(context);
-    return { user };
-};
+const context = (context) => ({
+    ...getAuthorization(context),
+});
 
 export default context;
