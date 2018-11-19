@@ -26,7 +26,7 @@ def find_matches():
                 rating
                 image
                 hashtags {
-                    title
+                    id
                 }
             }
         }
